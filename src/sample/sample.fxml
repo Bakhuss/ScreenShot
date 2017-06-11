@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="450.0" minWidth="370.0" onKeyReleased="#getScreenKey" prefHeight="450.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <BorderPane fx:id="mainFrame" minWidth="370.0" prefHeight="450.0" prefWidth="370.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <HBox alignment="TOP_CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ProgressIndicator fx:id="progIndicScreen" prefWidth="60.0" progress="1.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ProgressIndicator>
+                  <Button fx:id="Screen" mnemonicParsing="false" onAction="#screening" prefWidth="150.0" text="Screen" textAlignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="9.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btViewList" mnemonicParsing="false" onAction="#getView" prefWidth="150.0" text="View list" textAlignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </bottom>
+         <top>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane prefHeight="34.0" prefWidth="770.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="10.0" prefWidth="80.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <MenuBar>
+                          <menus>
+                            <Menu mnemonicParsing="false" text="Меню">
+                              <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <Button mnemonicParsing="false" text="Настройки" textAlignment="CENTER" />
+                                       </graphic>
+                                    </MenuItem>
+                                <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <Button mnemonicParsing="false" onAction="#mainClose" text="Закрыть" />
+                                       </graphic>
+                                    </MenuItem>
+                              </items>
+                            </Menu>
+                          </menus>
+                        </MenuBar>
+                        <HBox alignment="CENTER" GridPane.columnIndex="1">
+                           <children>
+                              <Label prefHeight="31.0" text="Size:" textAlignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton fx:id="rbFullSize" mnemonicParsing="false" onAction="#rbSizeActionFull" prefHeight="31.0" prefWidth="40.0" selected="true" text="Full" textAlignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </HBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="rbCustomSize" mnemonicParsing="false" onAction="#rbSizeActionCustom" prefHeight="31.0" prefWidth="62.0" text="Custom" textAlignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </HBox.margin>
+                              </RadioButton>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="lbWidth" prefHeight="17.0" prefWidth="77.0" text="width:  1" textAlignment="CENTER" />
+                                    <Label fx:id="lbHeight" prefHeight="17.0" prefWidth="77.0" text="height: 1" textAlignment="CENTER" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+      
+                     </children>
+                  </GridPane>
+                  <HBox alignment="CENTER" prefHeight="30.0">
+                     <children>
+                        <Label fx:id="lbTimes" alignment="CENTER" prefHeight="30.0" text="Время съёмки (сек): " textAlignment="CENTER">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfTimeScreen" alignment="CENTER" prefHeight="30.0" prefWidth="50.0" text="1">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="lbTimeErr" alignment="CENTER" prefWidth="30.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="30.0" text="Кол-во кадров: " textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbFrames" prefHeight="30.0" textAlignment="CENTER" />
+                     </children>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+               <content>
+                  <TableView fx:id="tableViewFromDB" editable="true" tableMenuButtonVisible="true">
+                    <columns>
+                      <TableColumn fx:id="nameColumn" onEditStart="#getViewFrames" prefWidth="290.0" text="Name" />
+                      <TableColumn fx:id="framesColumn" text="Кол-во" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+      <Pane fx:id="paneSetSize" layoutX="225.0" prefWidth="287.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="91.0" prefWidth="287.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="36.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" text="X:" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" text="Y:" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="100.0" prefWidth="79.0">
+                           <children>
+                              <TextField fx:id="tfXSize" prefHeight="25.0" />
+                              <TextField fx:id="tfYSize" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="65.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" text="width:" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Label prefHeight="25.0" text="height:" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <TextField fx:id="tfWidthSize" prefHeight="25.0" />
+                              <TextField fx:id="tfHeightSize" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="30.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#getScreenParent" text="Выделить" textAlignment="CENTER" />
+                        <Button mnemonicParsing="false" onAction="#savePaneSize" text="Сохранить" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#cancelPaneSize" text="Отменить" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Pane>
+   </children>
+</AnchorPane>
