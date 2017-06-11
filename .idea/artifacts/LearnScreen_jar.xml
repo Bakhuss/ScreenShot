@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="LearnScreen:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/LearnScreen_jar</output-path>
-    <root id="archive" name="LearnScreen.jar">
+    <root id="archive" name="ScreenShot.jar">
       <element id="module-output" name="LearnScreen" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/sample/sqlite-jdbc-3.18.0.jar" path-in-jar="/" />
     </root>

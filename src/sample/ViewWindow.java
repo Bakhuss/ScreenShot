@@ -203,8 +203,24 @@ public class ViewWindow extends JFrame {
                             String sqlQuery = "drop table '" + title + "';";
                             SQLHandler.connect();
                             System.out.println("Delete " + title);
-                            SQLHandler.pstmt.close();
+
+
+//                            try {
+//                                Thread.sleep(50);
+//                            } catch (InterruptedException e1) {
+//                                e1.printStackTrace();
+//                            }
+
                             if (SQLHandler.connection.isClosed()) SQLHandler.connect();
+//                            SQLHandler.pstmt.close();
+                            System.out.println("Connection closed");
+
+                            if (SQLHandler.connection.isValid(1)) {
+                                SQLHandler.disconnect();
+                                SQLHandler.connect();
+                                SQLHandler.pstmt.close();
+                            }
+
                             SQLHandler.stmt.executeUpdate(sqlQuery);
                             ResultSet res = SQLHandler.stmt.executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
 

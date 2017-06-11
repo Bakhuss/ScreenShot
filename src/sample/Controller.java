@@ -209,26 +209,13 @@ public class Controller {
     }
 */
 
-/*
-    public void getCountColors(ActionEvent actionEvent) {
-        ScreenCapture.getCountColors();
-    }
-*/
+
+//    public void getCountColors(ActionEvent actionEvent) {
+//        ScreenCapture.getCountColors();
+//    }
 
 
-    public void fgetScreenParent(KeyEvent keyEvent) {
 
-        if (keyEvent.getCode() == KeyCode.PRINTSCREEN && !ScreenParent.frame.isVisible()) {
-
-            ScreenParent.getScreenParent();
-
-        } else {
-            if (keyEvent.getCode() == KeyCode.ESCAPE) {
-                ScreenParent.frame.dispose();
-            }
-        }
-
-    }
 
     public void mainClose(ActionEvent actionEvent) {
         System.exit(0);
