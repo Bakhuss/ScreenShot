@@ -13,6 +13,9 @@ import java.util.Date;
 
 public class SQL {
 
+
+/*
+
     public SQL(ArrayList<BufferedImage> bi) {
 
         Thread[] threads = new Thread[1];
@@ -77,5 +80,8 @@ public class SQL {
         }
 
     }
+
+*/
+
 
 }

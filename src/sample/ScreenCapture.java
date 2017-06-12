@@ -288,7 +288,9 @@ int blue = (argb ) & 0xff;
 
 
     public static void saveToSQLBase() {
+        System.out.println("SaveToSQLBase");
         savingToSql = true;
+        SQLHandler saveToBase = new SQLHandler();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -304,10 +306,13 @@ int blue = (argb ) & 0xff;
 
                 try {
 
-                    SQLHandler.connect();
-                    SQLHandler.stmt.execute(sqlNameTable);
-                    SQLHandler.pstmt = SQLHandler.connection.prepareStatement(sqlStr);
-                    SQLHandler.connection.setAutoCommit(false);
+                    saveToBase.connect();
+                    saveToBase.getStmt().executeUpdate(sqlNameTable);
+//                    SQLHandler.stmt.execute(sqlNameTable);
+                    saveToBase.setPstmt(saveToBase.getConnection().prepareStatement(sqlStr));
+//                    SQLHandler.pstmt = SQLHandler.connection.prepareStatement(sqlStr);
+                    saveToBase.getConnection().setAutoCommit(false);
+//                    SQLHandler.connection.setAutoCommit(false);
 
 
                     long time = System.currentTimeMillis();
@@ -326,10 +331,14 @@ int blue = (argb ) & 0xff;
 //                            System.out.println("1 " + bi.size());
 
                             try {
-                                SQLHandler.pstmt.setString(1, "screen" + i);
-                                SQLHandler.pstmt.setBinaryStream(2, bais, baos.toByteArray().length);
-                                SQLHandler.pstmt.addBatch();
-                                if (i % 200 == 0) SQLHandler.pstmt.executeBatch();
+                                saveToBase.getPstmt().setString(1, "screen" + i);
+//                                SQLHandler.pstmt.setString(1, "screen" + i);
+                                saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
+//                                SQLHandler.pstmt.setBinaryStream(2, bais, baos.toByteArray().length);
+                                saveToBase.getPstmt().addBatch();
+//                                SQLHandler.pstmt.addBatch();
+//                                if (i % 200 == 0) SQLHandler.pstmt.executeBatch();
+                                if (i % 200 == 0) saveToBase.getPstmt().executeBatch();
 
                             } catch (SQLException e) {
                                 e.printStackTrace();
@@ -341,20 +350,22 @@ int blue = (argb ) & 0xff;
                         }
                     }
 
-                    SQLHandler.pstmt.executeBatch();
+//                    SQLHandler.pstmt.executeBatch();
+                    saveToBase.getPstmt().executeBatch();
 
                     time = System.currentTimeMillis() - time;
-                    System.out.println("SQLsaveTime: " + time / bi.size());
+                    System.out.println("SQLsaveTimeAvrg: " + time / bi.size());
 
 
                     bi = null;
 
-                    SQLHandler.connection.setAutoCommit(true);
+                    saveToBase.getConnection().setAutoCommit(true);
+//                    SQLHandler.connection.setAutoCommit(true);
 
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    SQLHandler.disconnect();
+                    saveToBase.disconnect();
                     savingToSql = false;
                     screening = false;
                 }

@@ -6,15 +6,17 @@ import java.sql.*;
 
 public class SQLHandler {
 
-    public static Connection connection;
-    public static Statement stmt;
-    public static PreparedStatement pstmt;
+    private Connection connection;
+    private Statement stmt;
+    private PreparedStatement pstmt;
     public static String urlDB = null;
     public static String urlJDBC = null;
     static File file;
     static File fileDB;
+    private static int connectionCount = 0;
 
-    public static void connect() throws SQLException {
+    public void connect() throws SQLException {
+        setConnectionCount(getConnectionCount()+1);
 
 //        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/imagedb", "root", "sqlpassword");
         file = new File(" ");
@@ -35,26 +37,28 @@ public class SQLHandler {
         System.out.println(fileDB.exists());
 
         connection = DriverManager.getConnection(urlDB);
+
         stmt = connection.createStatement();
         createTable("MetaData");
     }
 
-    public static void disconnect() {
+    public void disconnect() {
 
         try {
             connection.close();
+            setConnectionCount(getConnectionCount()-1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static void createDB() throws IOException, SQLException {
+    public void createDB() throws IOException, SQLException {
         fileDB.createNewFile();
         System.out.println("Создание дб");
     }
 
-    public static void createTable(String tblName) throws SQLException {
+    public void createTable(String tblName) throws SQLException {
         String tableName = tblName;
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
                      " name TEXT NOT NULL,\n" +
@@ -67,8 +71,8 @@ public class SQLHandler {
 
 
 
-    public static void getAllTables() throws SQLException {
-        ResultSet res = SQLHandler.stmt.executeQuery("select name from sqlite_master where type = 'table';");
+    public void getAllTables() throws SQLException {
+        ResultSet res = stmt.executeQuery("select name from sqlite_master where type = 'table';");
         ResultSet resFrames = null;
 
         while (res.next()) {
@@ -77,8 +81,8 @@ public class SQLHandler {
             table.setName(res.getString(1));
 
             String sqlQuery = "'" + table.getName() + "'";
-            SQLHandler.pstmt = connection.prepareStatement("select count(*) from " + sqlQuery + ";");
-            resFrames = SQLHandler.pstmt.executeQuery();
+            pstmt = connection.prepareStatement("select count(*) from " + sqlQuery + ";");
+            resFrames = pstmt.executeQuery();
 
             table.setFrames(resFrames.getInt(1));
             Controller.ScreenShots.add(table);
@@ -86,5 +90,37 @@ public class SQLHandler {
         }
         res.close();
 
+    }
+
+    public static int getConnectionCount() {
+        return connectionCount;
+    }
+
+    public static void setConnectionCount(int connectionCount) {
+        SQLHandler.connectionCount = connectionCount;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Statement getStmt() {
+        return stmt;
+    }
+
+    public void setStmt(Statement stmt) {
+        this.stmt = stmt;
+    }
+
+    public PreparedStatement getPstmt() {
+        return pstmt;
+    }
+
+    public void setPstmt(PreparedStatement pstmt) {
+        this.pstmt = pstmt;
     }
 }

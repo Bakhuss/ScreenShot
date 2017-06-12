@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.*;
 
 import javax.imageio.ImageIO;
@@ -53,6 +54,7 @@ public class Controller {
     public TableView<ViewFromDB> tableViewFromDB;
     public TableColumn<ViewFromDB, String> nameColumn;
     public TableColumn<ViewFromDB, Integer> framesColumn;
+    public SQLHandler getAllTables;
 
     Image image = null;
     InputStream is = null;
@@ -154,15 +156,7 @@ public class Controller {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    SQLHandler.connect();
-                    SQLHandler.getAllTables();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    SQLHandler.disconnect();
-                }
-
+                getTables();
                 nameColumn.setCellValueFactory(new PropertyValueFactory<ViewFromDB, String>("name"));
                 framesColumn.setCellValueFactory(new PropertyValueFactory<ViewFromDB, Integer>("frames"));
                 System.out.println(ScreenShots.size());
@@ -180,34 +174,20 @@ public class Controller {
 
         ScreenShots.clear();
     }
-
-/*
-    public static void takeDataFromDB() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    SQLHandler.connect();
-                    SQLHandler.getAllTables();
-
-                    nameColumn.setCellValueFactory(new PropertyValueFactory<ViewFromDB, String>("name"));
-                    framesColumn.setCellValueFactory(new PropertyValueFactory<ViewFromDB, Integer>("frames"));
-
-                    System.out.println(ScreenShots.size());
-                    tableViewFromDB.setItems(ScreenShots);
-
-                    SQLHandler.disconnect();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    SQLHandler.disconnect();
-                }
-
-            }
-        }).start();
+    public void getTables() {
+        getAllTables = new SQLHandler();
+        try {
+            getAllTables.connect();
+            getAllTables.getAllTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Не удалось запросить список таблиц из БД.");
+        } finally {
+            getAllTables.disconnect();
+        }
     }
-*/
+
+
 
 
 //    public void getCountColors(ActionEvent actionEvent) {
@@ -368,6 +348,7 @@ public class Controller {
     }
 
     public void getViewFrames(TableColumn.CellEditEvent<ViewFromDB, String> viewFromDBStringCellEditEvent) {
+        final SQLHandler viewFrames = new SQLHandler();
         getMemoryInfo();
         System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
         String title = viewFromDBStringCellEditEvent.getRowValue().getName();
@@ -387,10 +368,12 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    SQLHandler.connect();
-                    SQLHandler.pstmt = SQLHandler.connection.prepareStatement("select img from '" + title + "';");
+                    viewFrames.connect();
+                    viewFrames.setPstmt(viewFrames.getConnection().prepareStatement("select img from '" + title + "';"));
+//                    viewFrames.pstmt = SQLHandler.connection.prepareStatement("select img from '" + title + "';");
 
-                    ResultSet resultSet = SQLHandler.pstmt.executeQuery();
+                    ResultSet resultSet = viewFrames.getPstmt().executeQuery();
+//                    ResultSet resultSet = SQLHandler.pstmt.executeQuery();
 
                     while (resultSet.next()) {
                         InputStream is = resultSet.getBinaryStream(1);
@@ -414,8 +397,9 @@ public class Controller {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    SQLHandler.disconnect();
-                    System.out.println("Disconnect1");
+                    viewFrames.disconnect();
+
+                    System.out.println("Disconnect from method getViewFrames");
                 }
             }
         });
@@ -445,5 +429,12 @@ public class Controller {
         long maximum = Runtime.getRuntime().maxMemory() / (1024 * 1024);
         long free = Runtime.getRuntime().freeMemory() / (1024 * 1024);
         System.out.println("Memory: total " + total + "Мб | " + "maximum " + maximum + "Мб | " + "free " + free + "Мб");
+    }
+
+    public void getZoom(ZoomEvent zoomEvent) {
+        System.out.println("Zoom");
+        System.out.println(zoomEvent.getZoomFactor());
+        System.out.println(zoomEvent.getSceneX() + " " + zoomEvent.getSceneY());
+        System.out.println(zoomEvent.getTarget());
     }
 }

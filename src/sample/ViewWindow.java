@@ -163,8 +163,11 @@ public class ViewWindow extends JFrame {
     }
 
     public class Settings extends JFrame {
+        SQLHandler dropTable;
+        JFrame frame;
 
         public Settings(int x, int y, Component component) {
+
 
             setBounds(x, y, 110, 75);
             setUndecorated(true);
@@ -197,37 +200,16 @@ public class ViewWindow extends JFrame {
                     super.mouseReleased(e);
 
                     if (e.getButton() == 1) {
-                        JFrame frame = (JFrame) component;
-
-                        try {
-                            String sqlQuery = "drop table '" + title + "';";
-                            SQLHandler.connect();
-                            System.out.println("Delete " + title);
+                        frame = (JFrame) component;
+                        method();
 
 
-//                            try {
-//                                Thread.sleep(50);
-//                            } catch (InterruptedException e1) {
-//                                e1.printStackTrace();
+//                            ResultSet res = SQLHandler.stmt.executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
+
+
+//                            if (res.next()) {
+//                                System.out.println("Не удалось удалить. Попробуйте снова.");
 //                            }
-
-                            if (SQLHandler.connection.isClosed()) SQLHandler.connect();
-//                            SQLHandler.pstmt.close();
-                            System.out.println("Connection closed");
-
-                            if (SQLHandler.connection.isValid(1)) {
-                                SQLHandler.disconnect();
-                                SQLHandler.connect();
-                                SQLHandler.pstmt.close();
-                            }
-
-                            SQLHandler.stmt.executeUpdate(sqlQuery);
-                            ResultSet res = SQLHandler.stmt.executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
-
-
-                            if (res.next()) {
-                                System.out.println("Не удалось удалить. Попробуйте снова.");
-                            }
 
 
 //                            if (!res.next()) {
@@ -239,14 +221,9 @@ public class ViewWindow extends JFrame {
 
 
 
-                            res.close();
-                        } catch (SQLException e1) {
-                            e1.printStackTrace();
-                        } finally {
-                            SQLHandler.disconnect();
+//                            res.close();
                             settings.dispose();
                             frame.dispose();
-                        }
                     }
                 }
 
@@ -286,6 +263,26 @@ public class ViewWindow extends JFrame {
             });
 
             setVisible(true);
+
+        }
+
+        void method() {
+            String sqlQuery = "drop table '" + title + "';";
+            dropTable = new SQLHandler();
+            ResultSet res = null;
+            try {
+                dropTable.connect();
+                System.out.println("Delete " + title);
+                dropTable.getStmt().executeUpdate(sqlQuery);
+                res = dropTable.getStmt().executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
+                if (res.next()) System.out.println("Не удалось удалить. Попробуйте снова.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                dropTable.disconnect();
+                settings.dispose();
+                frame.dispose();
+            }
 
         }
     }
