@@ -370,10 +370,8 @@ public class Controller {
                 try {
                     viewFrames.connect();
                     viewFrames.setPstmt(viewFrames.getConnection().prepareStatement("select img from '" + title + "';"));
-//                    viewFrames.pstmt = SQLHandler.connection.prepareStatement("select img from '" + title + "';");
 
                     ResultSet resultSet = viewFrames.getPstmt().executeQuery();
-//                    ResultSet resultSet = SQLHandler.pstmt.executeQuery();
 
                     while (resultSet.next()) {
                         InputStream is = resultSet.getBinaryStream(1);
@@ -431,10 +429,4 @@ public class Controller {
         System.out.println("Memory: total " + total + "Мб | " + "maximum " + maximum + "Мб | " + "free " + free + "Мб");
     }
 
-    public void getZoom(ZoomEvent zoomEvent) {
-        System.out.println("Zoom");
-        System.out.println(zoomEvent.getZoomFactor());
-        System.out.println(zoomEvent.getSceneX() + " " + zoomEvent.getSceneY());
-        System.out.println(zoomEvent.getTarget());
-    }
 }

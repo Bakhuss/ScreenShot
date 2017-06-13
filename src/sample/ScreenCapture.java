@@ -27,9 +27,10 @@ int blue = (argb ) & 0xff;
 
 */
 
-        private static ArrayList<BufferedImage> bi = null;
+//    private static ArrayList<BufferedImage> bi = null;
+    static TreeMap<Long, BufferedImage> bi = null;
+
 //    private static ArrayList<BufferedImage>[] bi = new ArrayList[2];
-    ;
 
     BufferedOutputStream bos = null;
     static File file = null;
@@ -168,8 +169,98 @@ int blue = (argb ) & 0xff;
 //
 //    }
 
+/*
+    public static void getScreen() throws Exception {
+        screening = true;
+
+        SQLHandler screenSave = new SQLHandler();
 
 
+        long t = System.currentTimeMillis();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Date dateNow = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy-kk:mm:ss.SS");
+                String date = dateFormat.format(dateNow);
+                String tableName = "'" + date + "'";
+
+                String sqlNameTable = "CREATE TABLE " + tableName + " (name TEXT REFERENCES MetaData (name), img  BLOB);";
+                String sqlStr = "insert into " + tableName + " (name, img) values (?,?);";
+                System.out.println(sqlStr);
+
+
+                try {
+                    screenSave.connect();
+                    screenSave.getStmt().executeUpdate(sqlNameTable);
+                    screenSave.setPstmt(screenSave.getConnection().prepareStatement(sqlStr));
+                    screenSave.getConnection().setAutoCommit(false);
+                    int i = 0;
+                    long time = 0;
+                    time = System.currentTimeMillis();
+                    do {
+
+
+//                        for (int i = 0; i < bi.size(); i++) {
+//                    str = "screen/screen" + i + ".jpg";
+//                    file = new File(str);
+                        try {
+                            ByteArrayOutputStream baos = null;
+                            baos = new ByteArrayOutputStream();
+                            try {
+                                ImageIO.write(new Robot().createScreenCapture(new Rectangle(xSize, ySize, width, height)), "jpg", baos);
+                            } catch (AWTException e) {
+                                e.printStackTrace();
+                            }
+                            baos.close();
+                            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                            try {
+                                screenSave.getPstmt().setString(1, "screen" + i);
+                                screenSave.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
+                                screenSave.getPstmt().execute();
+//                                if (i % 200 == 0) screenSave.getPstmt().executeBatch();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            i++;
+//                        ImageIO.write(bi[i], "jpg", file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                        }
+                    } while (System.currentTimeMillis() - t < TimeScreen * 1000);
+                    screenSave.getConnection().commit();
+
+                    time = System.currentTimeMillis() - time;
+                    System.out.println("SQLsaveTimeAvrg: " + time / i);
+                    System.out.println(i);
+                    screenSave.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    screenSave.disconnect();
+                    savingToSql = false;
+                    screening = false;
+                }
+
+
+//                    bi.add(new Robot().createScreenCapture(new Rectangle(xSize, ySize, width, height)));
+
+
+            }
+        }).start();
+
+        screening = false;
+
+
+        new Color(-1711137);
+
+    }
+*/
+
+/*
     public static void getScreen() throws Exception {
         screening = true;
         if (bi == null) bi = new ArrayList<>();
@@ -205,11 +296,58 @@ int blue = (argb ) & 0xff;
 
         saveToSQLBase();
     }
+*/
+
+    public static void getScreen() throws Exception {
+        screening = true;
+        if (bi == null) bi = new TreeMap<>();
+        else {
+            System.out.println(bi.size());
+            bi.clear();
+            System.out.println(bi.size());
+        }
+        Thread[] screenThreads = new Thread[3];
+
+        long time = 0;
+        long t = System.currentTimeMillis();
+
+        for ( int i = 0; i < screenThreads.length; i++ ) {
+            screenThreads[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    do {
+                        try {
+                            bi.put( System.currentTimeMillis(), new Robot().createScreenCapture(new Rectangle(xSize, ySize, width, height)));
+                        } catch (AWTException e) {
+                            e.printStackTrace();
+                        }
+                    } while (System.currentTimeMillis() - t < TimeScreen * 1000);
+                }
+            });
+            screenThreads[i].start();
+            System.out.println("Run " + screenThreads[i].getState().toString());
+        }
+
+        while ( screenThreads[0].isAlive() & screenThreads[1].isAlive() & screenThreads[2].isAlive() ) {}
+
+        time += System.currentTimeMillis() - t;
+
+        long t1 = time / bi.size();
+        System.out.println("t: " + t1);
+        System.out.println(bi.size());
+        timeOneFrame = (int) t1;
+
+        setCountFrames(bi.size());
+
+//        screening = false;
+
+        new Color(-1711137);
+
+        saveToSQLBase();
+    }
 
 
-
-
-    public static ArrayList<BufferedImage> getBi() {
+    public static TreeMap<Long, BufferedImage> getBi() {
         return bi;
     }
 
@@ -286,7 +424,6 @@ int blue = (argb ) & 0xff;
     }
 
 
-
     public static void saveToSQLBase() {
         System.out.println("SaveToSQLBase");
         savingToSql = true;
@@ -294,7 +431,6 @@ int blue = (argb ) & 0xff;
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Date dateNow = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy-kk:mm:ss.SS");
                 String date = dateFormat.format(dateNow);
@@ -305,63 +441,44 @@ int blue = (argb ) & 0xff;
                 System.out.println(sqlStr);
 
                 try {
-
                     saveToBase.connect();
                     saveToBase.getStmt().executeUpdate(sqlNameTable);
-//                    SQLHandler.stmt.execute(sqlNameTable);
                     saveToBase.setPstmt(saveToBase.getConnection().prepareStatement(sqlStr));
-//                    SQLHandler.pstmt = SQLHandler.connection.prepareStatement(sqlStr);
                     saveToBase.getConnection().setAutoCommit(false);
-//                    SQLHandler.connection.setAutoCommit(false);
 
 
+                    Object[] bis = bi.values().toArray();
+                    bi = null;
+                    System.out.println(bis.length);
                     long time = System.currentTimeMillis();
-
-                    for (int i = 0; i < bi.size(); i++) {
+                    for (int i = 0; i < bis.length; i++) {
 //                    str = "screen/screen" + i + ".jpg";
 //                    file = new File(str);
                         try {
-
                             ByteArrayOutputStream baos = null;
                             baos = new ByteArrayOutputStream();
-                            ImageIO.write(bi.get(i), "jpg", baos);
+                            ImageIO.write( (BufferedImage) bis[i],"jpg",baos);
+//                            ImageIO.write(bi.get(i), "jpg", baos);
                             baos.close();
                             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-
-//                            System.out.println("1 " + bi.size());
-
                             try {
                                 saveToBase.getPstmt().setString(1, "screen" + i);
-//                                SQLHandler.pstmt.setString(1, "screen" + i);
                                 saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
-//                                SQLHandler.pstmt.setBinaryStream(2, bais, baos.toByteArray().length);
                                 saveToBase.getPstmt().addBatch();
-//                                SQLHandler.pstmt.addBatch();
-//                                if (i % 200 == 0) SQLHandler.pstmt.executeBatch();
                                 if (i % 200 == 0) saveToBase.getPstmt().executeBatch();
-
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
-
 //                        ImageIO.write(bi[i], "jpg", file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-
-//                    SQLHandler.pstmt.executeBatch();
                     saveToBase.getPstmt().executeBatch();
-
                     time = System.currentTimeMillis() - time;
-                    System.out.println("SQLsaveTimeAvrg: " + time / bi.size());
-
-
-                    bi = null;
-
+                    System.out.println("SQLsaveTimeAvrg: " + time / bis.length);
+                    bis = null;
                     saveToBase.getConnection().setAutoCommit(true);
-//                    SQLHandler.connection.setAutoCommit(true);
-
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
@@ -372,7 +489,6 @@ int blue = (argb ) & 0xff;
             }
         }).start();
     }
-
 
 
     public static void setTimeScreen(int TimeScreen) {
