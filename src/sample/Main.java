@@ -3,10 +3,13 @@ package sample;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventType;
+import javafx.event.WeakEventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Main extends Application {
 
@@ -45,4 +48,7 @@ public class Main extends Application {
         Main.mainWidth = mainWidth;
         Main.mainHeight = mainHeight;
     }
+
+
+
 }

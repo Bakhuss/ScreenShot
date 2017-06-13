@@ -30,6 +30,7 @@ public class ViewWindow extends JFrame {
         this.title = title;
 
         newWindow();
+        classMethod();
     }
 
     public void newWindow() {
@@ -284,6 +285,15 @@ public class ViewWindow extends JFrame {
                 frame.dispose();
             }
 
+        }
+    }
+
+
+
+    public void classMethod() {
+        System.out.println("getFrames: " + ViewWindow.getFrames().length );
+        for ( Frame o : ViewWindow.getFrames() ) {
+            System.out.println( o.getTitle() );
         }
     }
 

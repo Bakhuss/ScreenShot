@@ -67,27 +67,36 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="493">
+              <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#969#970#0" expanded="false" />
+                <element signature="e#1004#1005#0" expanded="false" />
+                <element signature="e#1039#1040#0" expanded="false" />
+                <element signature="e#1071#1072#0" expanded="false" />
+                <element signature="e#1117#1118#0" expanded="false" />
+                <element signature="e#1145#1146#0" expanded="false" />
                 <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="385" column="0" lean-forward="false" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
+            <state relative-caret-position="316">
+              <caret line="358" column="9" lean-forward="false" selection-start-line="358" selection-start-column="9" selection-end-line="358" selection-end-column="9" />
               <folding>
+                <element signature="method#initialize#0;class#Controller#0" expanded="false" />
                 <element signature="method#screening#0;class#Controller#0" expanded="false" />
-                <element signature="e#3677#3742#0" expanded="false" />
+                <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+                <element signature="e#3941#4006#0" expanded="false" />
                 <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
                 <element signature="method#getView#0;class#Controller#0" expanded="false" />
                 <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-                <element signature="e#6339#6398#0" expanded="false" />
+                <element signature="e#6603#6662#0" expanded="false" />
                 <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
                 <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
                 <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -98,7 +107,7 @@
                 <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
                 <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
                 <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-                <element signature="e#13562#13610#0" expanded="false" />
+                <element signature="e#14439#14487#0" expanded="false" />
                 <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
                 <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
               </folding>
@@ -109,12 +118,10 @@
       <file leaf-file-name="ScreenCapture.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/ScreenCapture.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="479" column="20" lean-forward="false" selection-start-line="479" selection-start-column="20" selection-end-line="479" selection-end-column="20" />
+            <state relative-caret-position="1309">
+              <caret line="319" column="141" lean-forward="false" selection-start-line="319" selection-start-column="141" selection-end-line="319" selection-end-column="141" />
               <folding>
                 <element signature="e#1604#1659#0" expanded="false" />
-                <element signature="e#11386#11387#0" expanded="true" />
-                <element signature="e#11441#11442#0" expanded="true" />
                 <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
                 <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
                 <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -124,13 +131,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewWindow.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ViewWindow.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/ViewWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
+            <state relative-caret-position="548">
+              <caret line="288" column="5" lean-forward="true" selection-start-line="288" selection-start-column="5" selection-end-line="288" selection-end-column="5" />
               <folding>
-                <marker date="1497283026740" expanded="true" signature="6411:6583" ph="..." />
+                <element signature="method#newWindow#0;class#ViewWindow#0" expanded="false" />
+                <element signature="method#setTitle#0;class#ViewWindow#0" expanded="false" />
+                <element signature="class#Settings#0;class#ViewWindow#0" expanded="false" />
+                <element signature="e#6274#6429#0" expanded="false" />
+                <marker date="1497391345758" expanded="true" signature="6434:6606" ph="..." />
               </folding>
             </state>
           </provider>
@@ -142,19 +153,6 @@
             <state relative-caret-position="102">
               <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SQL.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/SQL.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="83" column="2" lean-forward="false" selection-start-line="83" selection-start-column="2" selection-end-line="83" selection-end-column="2" />
-              <folding>
-                <marker date="1497283026740" expanded="false" signature="374:2624" ph="{...}" />
-                <marker date="1497283026740" expanded="false" signature="1341:1442" ph="//..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -210,14 +208,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/sample/ScreenParent.java" />
-        <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/ViewFromDB.java" />
         <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
-        <option value="$PROJECT_DIR$/src/sample/ViewWindow.java" />
         <option value="$PROJECT_DIR$/src/sample/SQL.java" />
         <option value="$PROJECT_DIR$/src/sample/SQLHandler.java" />
-        <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/ScreenCapture.java" />
+        <option value="$PROJECT_DIR$/src/sample/Main.java" />
+        <option value="$PROJECT_DIR$/src/sample/ViewWindow.java" />
+        <option value="$PROJECT_DIR$/src/sample/Controller.java" />
       </list>
     </option>
   </component>
@@ -267,9 +265,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -648,20 +646,20 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34581497" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1376" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1424" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="ASM" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39977974" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -697,24 +695,12 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding>
-            <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/ScreenCapture.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
           <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -732,14 +718,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1445">
           <caret line="85" column="42" lean-forward="false" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -747,12 +733,14 @@
         <state relative-caret-position="731">
           <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -763,7 +751,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -775,6 +763,13 @@
         <state relative-caret-position="153">
           <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
@@ -786,8 +781,6 @@
           <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -805,14 +798,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1445">
           <caret line="85" column="42" lean-forward="false" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -820,12 +813,14 @@
         <state relative-caret-position="731">
           <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -836,7 +831,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -848,6 +843,13 @@
         <state relative-caret-position="153">
           <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
@@ -859,8 +861,6 @@
           <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -878,14 +878,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1853">
           <caret line="109" column="72" lean-forward="true" selection-start-line="109" selection-start-column="72" selection-end-line="109" selection-end-column="72" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -893,12 +893,14 @@
         <state relative-caret-position="2329">
           <caret line="137" column="38" lean-forward="false" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -909,7 +911,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -921,6 +923,13 @@
         <state relative-caret-position="153">
           <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
@@ -931,12 +940,14 @@
         <state relative-caret-position="1513">
           <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -947,7 +958,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -955,14 +966,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="113" lean-forward="false" selection-start-line="16" selection-start-column="113" selection-end-line="16" selection-end-column="113" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/ScreenCapture.java">
@@ -971,8 +982,6 @@
           <caret line="39" column="40" lean-forward="false" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -986,6 +995,13 @@
         <state relative-caret-position="153">
           <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
@@ -997,8 +1013,6 @@
           <caret line="39" column="40" lean-forward="false" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -1008,14 +1022,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="113" lean-forward="false" selection-start-line="16" selection-start-column="113" selection-end-line="16" selection-end-column="113" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -1023,12 +1037,14 @@
         <state relative-caret-position="1513">
           <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -1039,7 +1055,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -1051,20 +1067,27 @@
         <state relative-caret-position="51">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -1072,12 +1095,14 @@
         <state relative-caret-position="34">
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -1088,7 +1113,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -1100,20 +1125,27 @@
         <state relative-caret-position="51">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
             <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="45" lean-forward="false" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -1121,12 +1153,14 @@
         <state relative-caret-position="119">
           <caret line="7" column="27" lean-forward="false" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -1137,7 +1171,7 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
           </folding>
@@ -1247,20 +1281,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/ViewFromDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-118">
+          <caret line="154" column="33" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1275,6 +1310,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#1004#1005#0" expanded="false" />
+            <element signature="e#1039#1040#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1117#1118#0" expanded="false" />
+            <element signature="e#1145#1146#0" expanded="false" />
+            <element signature="method#setMainWidthHeight#0;class#Main#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/SQLHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1283,25 +1335,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-118">
-          <caret line="154" column="33" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/ScreenCapture.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="479" column="20" lean-forward="false" selection-start-line="479" selection-start-column="20" selection-end-line="479" selection-end-column="20" />
+        <state relative-caret-position="1309">
+          <caret line="319" column="141" lean-forward="false" selection-start-line="319" selection-start-column="141" selection-end-line="319" selection-end-column="141" />
           <folding>
             <element signature="e#1604#1659#0" expanded="false" />
-            <element signature="e#11386#11387#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
             <element signature="method#getMaxCountColor#0;class#ScreenCapture#0" expanded="false" />
             <marker date="1497312363713" expanded="false" signature="5147:8708" ph="{...}" />
             <marker date="1497312363713" expanded="false" signature="8768:9604" ph="{...}" />
@@ -1310,27 +1349,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/ViewWindow.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/awt/Frame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
-          <folding>
-            <marker date="1497283026740" expanded="true" signature="6411:6583" ph="..." />
-          </folding>
+        <state relative-caret-position="293">
+          <caret line="1131" column="26" lean-forward="false" selection-start-line="1131" selection-start-column="26" selection-end-line="1131" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="385" column="0" lean-forward="false" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
+        <state relative-caret-position="316">
+          <caret line="358" column="9" lean-forward="false" selection-start-line="358" selection-start-column="9" selection-end-line="358" selection-end-column="9" />
           <folding>
+            <element signature="method#initialize#0;class#Controller#0" expanded="false" />
             <element signature="method#screening#0;class#Controller#0" expanded="false" />
-            <element signature="e#3677#3742#0" expanded="false" />
+            <element signature="method#getScreenController#0;class#Controller#0" expanded="false" />
+            <element signature="e#3941#4006#0" expanded="false" />
             <element signature="method#getScreenKey#0;class#Controller#0" expanded="false" />
             <element signature="method#getView#0;class#Controller#0" expanded="false" />
             <element signature="method#getTables#0;class#Controller#0" expanded="false" />
-            <element signature="e#6339#6398#0" expanded="false" />
+            <element signature="e#6603#6662#0" expanded="false" />
             <element signature="method#cancelPaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#savePaneSize#0;class#Controller#0" expanded="false" />
             <element signature="method#setProgIndicScreenValue#0;class#Controller#0" expanded="false" />
@@ -1341,9 +1380,23 @@
             <element signature="method#rbSizeActionFull#0;class#Controller#0" expanded="false" />
             <element signature="method#rbSizeActionCustom#0;class#Controller#0" expanded="false" />
             <element signature="method#getScreenParent#0;class#Controller#0" expanded="false" />
-            <element signature="e#13562#13610#0" expanded="false" />
+            <element signature="e#14439#14487#0" expanded="false" />
             <element signature="method#mouseClickedFromTable#0;class#Controller#0" expanded="false" />
             <element signature="method#getMemoryInfo#0;class#Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/ViewWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="288" column="5" lean-forward="true" selection-start-line="288" selection-start-column="5" selection-end-line="288" selection-end-column="5" />
+          <folding>
+            <element signature="method#newWindow#0;class#ViewWindow#0" expanded="false" />
+            <element signature="method#setTitle#0;class#ViewWindow#0" expanded="false" />
+            <element signature="class#Settings#0;class#ViewWindow#0" expanded="false" />
+            <element signature="e#6274#6429#0" expanded="false" />
+            <marker date="1497391345758" expanded="true" signature="6434:6606" ph="..." />
           </folding>
         </state>
       </provider>

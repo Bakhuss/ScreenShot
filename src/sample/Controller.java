@@ -30,7 +30,6 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    public ImageView ivImg;
     public Button Screen;
     public TextField tfTimeScreen;
     public Label lbTimeErr;
@@ -50,7 +49,6 @@ public class Controller {
     public Button btViewList;
 
     static ObservableList<ViewFromDB> ScreenShots = FXCollections.observableArrayList();
-
     public TableView<ViewFromDB> tableViewFromDB;
     public TableColumn<ViewFromDB, String> nameColumn;
     public TableColumn<ViewFromDB, Integer> framesColumn;
@@ -61,6 +59,14 @@ public class Controller {
     BufferedOutputStream bos = null;
     Thread[] threads = new Thread[1];
     static double timeProgress = 0;
+
+
+    public void initialize(){
+        if (!Main.getPrimaryStage().isIconified()) {
+            getLbWidth().setText("width:  " + String.valueOf( ScreenCapture.getMaxWidth() ) );
+            getLbHeight().setText("height: " + String.valueOf( ScreenCapture.getMaxHeight() ) );
+        }
+    }
 
 
     public void screening(ActionEvent actionEvent) throws Exception {
@@ -348,10 +354,29 @@ public class Controller {
     }
 
     public void getViewFrames(TableColumn.CellEditEvent<ViewFromDB, String> viewFromDBStringCellEditEvent) {
+        boolean isActiv = false;
+        System.out.println("getViewFrames");
+        String title = viewFromDBStringCellEditEvent.getRowValue().getName();
+        Frame[] frames = ViewWindow.getFrames();
+        if (frames != null) {
+            for ( Frame o : frames ) {
+                String[] str = o.getTitle().split(" ");
+                if ( str[3].equals(title) ) {
+                    o.setState(Frame.NORMAL);
+                    o.show();
+                    isActiv = true;
+                    break;
+                }
+            }
+        }
+        if (isActiv) {
+            return;
+        }
+
         final SQLHandler viewFrames = new SQLHandler();
         getMemoryInfo();
         System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
-        String title = viewFromDBStringCellEditEvent.getRowValue().getName();
+//        String title = viewFromDBStringCellEditEvent.getRowValue().getName();
 
         ArrayList<BufferedImage> bi = new ArrayList<>();
         System.out.println(bi.size());
@@ -429,4 +454,12 @@ public class Controller {
         System.out.println("Memory: total " + total + "Мб | " + "maximum " + maximum + "Мб | " + "free " + free + "Мб");
     }
 
+
+    public Label getLbWidth() {
+        return lbWidth;
+    }
+
+    public Label getLbHeight() {
+        return lbHeight;
+    }
 }
