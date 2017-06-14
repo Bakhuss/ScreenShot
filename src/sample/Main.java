@@ -25,9 +25,6 @@ public class Main extends Application {
         primaryStage.setTitle("ScreenShot");
         mainScene = new Scene(root, mainWidth, mainHeight);
         primaryStage.setScene(mainScene);
-//        primaryStage.setMinWidth(800.0);
-//        primaryStage.setMinHeight(562.0);
-
         primaryStage.show();
 
     }

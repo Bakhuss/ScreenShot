@@ -109,6 +109,9 @@ public class ViewWindow extends JFrame {
                 super.windowClosing(e);
                 if (settings != null) settings.dispose();
                 bi.clear();
+                Controller.getTablesName().remove(title);
+                Controller.getTablesName().trimToSize();
+                System.out.println("tablesNameSize: " + Controller.getTablesName().size());
             }
 
             @Override
@@ -223,8 +226,8 @@ public class ViewWindow extends JFrame {
 
 
 //                            res.close();
-                            settings.dispose();
-                            frame.dispose();
+//                            settings.dispose();
+//                            frame.dispose();
                     }
                 }
 
@@ -281,6 +284,7 @@ public class ViewWindow extends JFrame {
                 e.printStackTrace();
             } finally {
                 dropTable.disconnect();
+                Controller.getTablesName().remove(title);
                 settings.dispose();
                 frame.dispose();
             }

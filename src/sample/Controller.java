@@ -54,6 +54,8 @@ public class Controller {
     public TableColumn<ViewFromDB, Integer> framesColumn;
     public SQLHandler getAllTables;
 
+    static ArrayList<String> tablesName = null;
+
     Image image = null;
     InputStream is = null;
     BufferedOutputStream bos = null;
@@ -61,10 +63,11 @@ public class Controller {
     static double timeProgress = 0;
 
 
-    public void initialize(){
+    public void initialize() {
+        tablesName = new ArrayList<>();
         if (!Main.getPrimaryStage().isIconified()) {
-            getLbWidth().setText("width:  " + String.valueOf( ScreenCapture.getMaxWidth() ) );
-            getLbHeight().setText("height: " + String.valueOf( ScreenCapture.getMaxHeight() ) );
+            getLbWidth().setText("width:  " + String.valueOf(ScreenCapture.getMaxWidth()));
+            getLbHeight().setText("height: " + String.valueOf(ScreenCapture.getMaxHeight()));
         }
     }
 
@@ -180,6 +183,7 @@ public class Controller {
 
         ScreenShots.clear();
     }
+
     public void getTables() {
         getAllTables = new SQLHandler();
         try {
@@ -194,13 +198,9 @@ public class Controller {
     }
 
 
-
-
 //    public void getCountColors(ActionEvent actionEvent) {
 //        ScreenCapture.getCountColors();
 //    }
-
-
 
 
     public void mainClose(ActionEvent actionEvent) {
@@ -354,79 +354,80 @@ public class Controller {
     }
 
     public void getViewFrames(TableColumn.CellEditEvent<ViewFromDB, String> viewFromDBStringCellEditEvent) {
-        boolean isActiv = false;
         System.out.println("getViewFrames");
         String title = viewFromDBStringCellEditEvent.getRowValue().getName();
-        Frame[] frames = ViewWindow.getFrames();
-        if (frames != null) {
-            for ( Frame o : frames ) {
-                String[] str = o.getTitle().split(" ");
-                if ( str[3].equals(title) ) {
+
+        if ( getTablesName().contains(title) ) {
+            System.out.println("Contains: " + title);
+            for ( Frame o : ViewWindow.getFrames() ) {
+                if ( o.getTitle().split(" ")[3].equals(title) ) {
                     o.setState(Frame.NORMAL);
                     o.show();
-                    isActiv = true;
-                    break;
                 }
             }
-        }
-        if (isActiv) {
-            return;
-        }
+//            return;
+        } else {
 
-        final SQLHandler viewFrames = new SQLHandler();
-        getMemoryInfo();
-        System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
-//        String title = viewFromDBStringCellEditEvent.getRowValue().getName();
+            final SQLHandler viewFrames = new SQLHandler();
+            getMemoryInfo();
+            System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
 
-        ArrayList<BufferedImage> bi = new ArrayList<>();
-        System.out.println(bi.size());
-        Thread tr = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Title: " + title);
-                System.out.println(bi.size());
-                ViewWindow viewWindow = new ViewWindow(bi, title);
-            }
-        });
+            ArrayList<BufferedImage> bi = new ArrayList<>();
+            System.out.println(bi.size());
+            Thread tr = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("Title: " + title);
+                    System.out.println(bi.size());
+                    ViewWindow viewWindow = new ViewWindow(bi, title);
+                    getTablesName().add(title);
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    viewFrames.connect();
-                    viewFrames.setPstmt(viewFrames.getConnection().prepareStatement("select img from '" + title + "';"));
-
-                    ResultSet resultSet = viewFrames.getPstmt().executeQuery();
-
-                    while (resultSet.next()) {
-                        InputStream is = resultSet.getBinaryStream(1);
-                        try {
-                            bi.add(ImageIO.read(is));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
-                            try {
-                                tr.start();
-                            } catch (IllegalThreadStateException ie) {
-                                ie.printStackTrace();
-                                break;
-                            }
-                        }
+                    for (int i = 0; i < getTablesName().size(); i++) {
+                        System.out.println(getTablesName().get(i));
                     }
 
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    viewFrames.disconnect();
-
-                    System.out.println("Disconnect from method getViewFrames");
                 }
-            }
-        });
-        thread.start();
+            });
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println("Connect from method getViewFrames");
+                        viewFrames.connect();
+                        viewFrames.setPstmt(viewFrames.getConnection().prepareStatement("select img from '" + title + "';"));
+
+                        ResultSet resultSet = viewFrames.getPstmt().executeQuery();
+
+                        while (resultSet.next()) {
+                            InputStream is = resultSet.getBinaryStream(1);
+                            try {
+                                bi.add(ImageIO.read(is));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
+                                try {
+                                    tr.start();
+                                } catch (IllegalThreadStateException ie) {
+                                    ie.printStackTrace();
+                                    break;
+                                }
+                            }
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        viewFrames.disconnect();
+                        System.out.println("Disconnect from method getViewFrames");
+                    }
+                }
+            });
+            thread.start();
+
+        }
 
 
 //        System.out.println("Title: " + title);
@@ -461,5 +462,14 @@ public class Controller {
 
     public Label getLbHeight() {
         return lbHeight;
+    }
+
+
+    public static ArrayList<String> getTablesName() {
+        return tablesName;
+    }
+
+    public static void setTablesName(ArrayList<String> tablesName) {
+        Controller.tablesName = tablesName;
     }
 }
