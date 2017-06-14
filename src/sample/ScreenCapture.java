@@ -27,7 +27,7 @@ int blue = (argb ) & 0xff;
 
 */
 
-//    private static ArrayList<BufferedImage> bi = null;
+    //    private static ArrayList<BufferedImage> bi = null;
     static TreeMap<Long, BufferedImage> bi = null;
 
 //    private static ArrayList<BufferedImage>[] bi = new ArrayList[2];
@@ -45,8 +45,8 @@ int blue = (argb ) & 0xff;
     private static int ySize = 0;
 
     static String str = null;
-    static HashMap<String, Integer> countColors;
-    static ArrayList<Integer> arrInt = null;
+//    static HashMap<String, Integer> countColors;
+//    static ArrayList<Integer> arrInt = null;
     private static int TimeScreen = 0;
     private static int countFrames = 0;
     private static boolean savingToSql = false;
@@ -311,13 +311,13 @@ int blue = (argb ) & 0xff;
         long time = 0;
         long t = System.currentTimeMillis();
 
-        for ( int i = 0; i < screenThreads.length; i++ ) {
+        for (int i = 0; i < screenThreads.length; i++) {
             screenThreads[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     do {
                         try {
-                            bi.put( System.currentTimeMillis(), new Robot().createScreenCapture(new Rectangle(xSize, ySize, width, height)));
+                            bi.put(System.currentTimeMillis(), new Robot().createScreenCapture(new Rectangle(xSize, ySize, width, height)));
                         } catch (AWTException e) {
                             e.printStackTrace();
                         }
@@ -328,7 +328,8 @@ int blue = (argb ) & 0xff;
             System.out.println("Run " + screenThreads[i].getState().toString());
         }
 
-        while ( screenThreads[0].isAlive() & screenThreads[1].isAlive() & screenThreads[2].isAlive() ) {}
+        while (screenThreads[0].isAlive() & screenThreads[1].isAlive() & screenThreads[2].isAlive()) {
+        }
 
         time += System.currentTimeMillis() - t;
 
@@ -358,69 +359,6 @@ int blue = (argb ) & 0xff;
 
     public static void setCountFrames(int countFrames) {
         ScreenCapture.countFrames = countFrames;
-    }
-
-/*
-    public static void getCountColors() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                System.out.println("CountColors");
-                countColors = new HashMap<>();
-                long time2 = System.currentTimeMillis();
-                for (BufferedImage o : bi) {
-                    for (int i = 0; i < o.getHeight(); i++) {
-                        for (int j = 0; j < o.getWidth(); j++) {
-                            int rgb = o.getRGB(j, i);
-                            String str = "rgb: " + rgb;
-                            if (countColors.containsKey(str)) {
-                                int actualCount = countColors.get(str);
-                                actualCount = actualCount + 1;
-                                countColors.put(str, actualCount);
-                            } else {
-                                countColors.put(str, 1);
-                            }
-                        }
-
-//                    int red = (rgb >> 16) & 0xff;
-//                    int green = (rgb >> 8) & 0xff;
-//                    int blue = (rgb) & 0xff;
-//                    System.out.println(red + " " + green + " " + blue);
-
-                    }
-                }
-                System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
-                getMaxCountColor();
-
-            }
-        }).start();
-
-    }
-*/
-
-
-    public static void getMaxCountColor() {
-        long t3 = System.currentTimeMillis();
-        int max = 0;
-        int r = 0;
-        int r1 = 0;
-        arrInt = new ArrayList<>(countColors.values());
-        for (int o : arrInt) {
-            if (max < o) {
-                max = o;
-                r1 = r;
-//                System.out.println("r1: " + r1);
-            }
-//            if ( (r != 0) && (r % 30 == 0) ) System.out.println();
-//            System.out.print(max + " | " + o + " ");
-            r++;
-        }
-        System.out.println("Время поиска макс. цвета: " + (System.currentTimeMillis() - t3));
-
-        String st = (String) countColors.keySet().toArray()[r1];
-        System.out.println("Цвет: " + st);
-        System.out.println("Количество: " + max);
     }
 
 
@@ -457,7 +395,7 @@ int blue = (argb ) & 0xff;
                         try {
                             ByteArrayOutputStream baos = null;
                             baos = new ByteArrayOutputStream();
-                            ImageIO.write( (BufferedImage) bis[i],"jpg",baos);
+                            ImageIO.write((BufferedImage) bis[i], "jpg", baos);
 //                            ImageIO.write(bi.get(i), "jpg", baos);
                             baos.close();
                             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());

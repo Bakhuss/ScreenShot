@@ -1,6 +1,8 @@
 package sample;
 
 
+import Analysis.Colors;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,6 +33,8 @@ public class ViewWindow extends JFrame {
 
         newWindow();
         classMethod();
+        System.out.println("Analysis");
+        analysis();
     }
 
     public void newWindow() {
@@ -292,7 +296,9 @@ public class ViewWindow extends JFrame {
         }
     }
 
-
+    public ArrayList<BufferedImage> getBi() {
+        return bi;
+    }
 
     public void classMethod() {
         System.out.println("getFrames: " + ViewWindow.getFrames().length );
@@ -301,4 +307,13 @@ public class ViewWindow extends JFrame {
         }
     }
 
+
+    public void analysis() {
+        Colors colors = new Colors(getBi());
+        colors.getCountColors();
+    }
+
+    public void color() {
+        new Color(-10581554);
+    }
 }

@@ -63,7 +63,7 @@ public class SQLHandler {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
                      " name TEXT NOT NULL,\n" +
                      " date TEXT NOT NULL,\n" +
-                     " CountColors BIGINT\n" +
+                     " Colors BIGINT\n" +
                      ");";
 
         stmt.execute(sql);
