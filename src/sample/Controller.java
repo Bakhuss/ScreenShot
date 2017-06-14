@@ -47,6 +47,8 @@ public class Controller {
     public TextField tfWidthSize;
     public TextField tfHeightSize;
     public Button btViewList;
+    public Pane paneAboutProgram;
+    public Label lbAboutProgram;
 
     static ObservableList<ViewFromDB> ScreenShots = FXCollections.observableArrayList();
     public TableView<ViewFromDB> tableViewFromDB;
@@ -55,6 +57,7 @@ public class Controller {
     public SQLHandler getAllTables;
 
     static ArrayList<String> tablesName = null;
+
 
     Image image = null;
     InputStream is = null;
@@ -65,6 +68,14 @@ public class Controller {
 
     public void initialize() {
         tablesName = new ArrayList<>();
+        String aboutProgram = "Скриншотер для съёмки серии снимков в течение выбранного времени (от 1 секунды).\n" +
+                              "Выбор размера снимков (full или custom).\n" +
+                              "Автоматическое сохранение серии фотографий в БД SQLite (одна серия - одна таблица в БД).\n" +
+                              "Запрос серий из БД по кнопке View list.\n" +
+                              "Просмотр снимков по двойному клику по названию.\n" +
+                              "Пролистывание снимков колёсиком мыши либо стрелками влево-вправо на клавиатуре.\n" +
+                              "Удаление по клику правой кнопкой в открытом отдельном окне серии.";
+        lbAboutProgram.setText(aboutProgram);
         if (!Main.getPrimaryStage().isIconified()) {
             getLbWidth().setText("width:  " + String.valueOf(ScreenCapture.getMaxWidth()));
             getLbHeight().setText("height: " + String.valueOf(ScreenCapture.getMaxHeight()));
@@ -471,5 +482,23 @@ public class Controller {
 
     public static void setTablesName(ArrayList<String> tablesName) {
         Controller.tablesName = tablesName;
+    }
+
+    public void showPaneAboutProgram(ActionEvent actionEvent) {
+
+        mainFrame.setDisable(true);
+        mainFrame.setOpacity(0.7);
+        paneAboutProgram.setVisible(true);
+
+
+
+    }
+
+    public void okPaneAboutProgram(ActionEvent actionEvent) {
+
+        paneAboutProgram.setVisible(false);
+        mainFrame.setDisable(false);
+        mainFrame.setOpacity(1);
+
     }
 }
