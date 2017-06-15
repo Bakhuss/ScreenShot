@@ -1,6 +1,7 @@
 package sample;
 
 
+import Analysis.AnalysisWindow;
 import Analysis.Colors;
 
 import javax.swing.*;
@@ -55,6 +56,12 @@ public class ViewWindow extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
+                System.out.println(e.getKeyCode());
+
+                if (e.getKeyCode() == 65) {
+                    AnalysisWindow analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount));
+                    analysisWindow.window();
+                }
 
                 switch (e.getKeyCode()) {
                     case 39:
@@ -77,6 +84,8 @@ public class ViewWindow extends JFrame {
                 }
                 repaint();
             }
+
+
         });
 
         addMouseWheelListener(new MouseAdapter() {
@@ -309,11 +318,11 @@ public class ViewWindow extends JFrame {
 
 
     public void analysis() {
-        Colors colors = new Colors(getBi());
-        colors.getCountColors();
+//        Colors colors = new Colors(getBi());
+//        colors.getCountColors(0);
     }
 
     public void color() {
-        new Color(-10581554);
+        new Color(-6968132);
     }
 }
