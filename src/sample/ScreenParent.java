@@ -67,7 +67,7 @@ public class ScreenParent {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println(e.getLocationOnScreen());
+//                System.out.println(e.getLocationOnScreen());
                 startX = e.getXOnScreen();
                 startY = e.getYOnScreen();
                 frame.addMouseMotionListener(screenParentMotion);
@@ -76,6 +76,7 @@ public class ScreenParent {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (e.getXOnScreen() == getStartX() && e.getYOnScreen() == getStartY()) return;
                 frame.removeMouseMotionListener(screenParentMotion);
                 frame.dispose();
                 Platform.runLater(new Runnable() {
@@ -91,7 +92,7 @@ public class ScreenParent {
         screenParentMotion = new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                System.out.println(e.getLocationOnScreen());
+//                System.out.println(e.getLocationOnScreen());
                 endX = e.getXOnScreen();
                 endY = e.getYOnScreen();
                 jp.repaint();

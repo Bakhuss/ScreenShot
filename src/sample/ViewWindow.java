@@ -24,6 +24,7 @@ public class ViewWindow extends JFrame {
     int currentScreenCount;
     Rectangle currentJpRect;
     Settings settings = null;
+    AnalysisWindow analysisWindow = null;
 
 
     public ViewWindow(ArrayList<BufferedImage> bi, String title) {
@@ -59,7 +60,7 @@ public class ViewWindow extends JFrame {
                 System.out.println(e.getKeyCode());
 
                 if (e.getKeyCode() == 65) {
-                    AnalysisWindow analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount));
+                   analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), getTitle());
                     analysisWindow.window();
                 }
 
@@ -121,6 +122,7 @@ public class ViewWindow extends JFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 if (settings != null) settings.dispose();
+                if (analysisWindow != null) analysisWindow.dispose();
                 bi.clear();
                 Controller.getTablesName().remove(title);
                 Controller.getTablesName().trimToSize();
