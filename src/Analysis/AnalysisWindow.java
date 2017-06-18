@@ -61,30 +61,6 @@ public class AnalysisWindow extends JFrame {
         jpButtons.add(bNumberCount);
 
 
-//        bNumberCount.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                super.mousePressed(e);
-//                try {
-//                    int b = Integer.valueOf(jtfNumberCount.getText());
-//                    if ( b < 0 ) throw new  ClassCastException("Только положительное число !!");
-//                    if (b > colors.getSizes().size()-1) throw new ClassCastException("Такого цвета нет на этом изображении!!");
-//                    if (b == 0) {
-//                        emptyWindow.getPoints().clear();
-//                        emptyWindow.repaint();
-//                        return;
-//                    }
-//                    setNumberCount( b - 1 );
-//                    setPointsToEmptyWindow(getNumberCount());
-//                    System.out.println("NumberCount: " + (getNumberCount() + 1) );
-//                    emptyWindow.repaint();
-//                } catch (ClassCastException ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-//        });
-
         btEmptyPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -218,16 +194,6 @@ public class AnalysisWindow extends JFrame {
 //            System.out.println("colorsSizeKeyByValue: " + a);
 
             new Color(-15988736);
-//            for ( int i = 0; i < clr.length; i++ ) {
-//                g.setColor( (Color) clr[i]);
-//                g.fillRect(x, y, 10,10);
-//                x = x + 11;
-//                if (x > getWidthW()-10) {
-//                    x = 1;
-//                    y = y + 11;
-//                }
-//                if (y > getHeightW()-60) break;
-//            }
 
         }
     }
