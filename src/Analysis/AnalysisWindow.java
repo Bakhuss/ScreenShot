@@ -78,7 +78,7 @@ public class AnalysisWindow extends JFrame {
                             try {
                                 int b = Integer.valueOf(jtfNumberCount.getText());
                                 if (b < 0) throw new ClassCastException("Только положительное число !!");
-                                if (b > colors.getCountColorsMap().size())
+                                if (b > colors.getTempp().size())
                                     throw new ClassCastException("Такого цвета нет на этом изображении!!");
                                 if (b == 0) {
                                     emptyWindow.getPoints().clear();
