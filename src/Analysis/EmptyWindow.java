@@ -50,7 +50,7 @@ public class EmptyWindow extends JFrame {
 
             Object[] objects = getPoints().keySet().toArray();
             for (int i = 0; i < objects.length; i++) {
-                System.out.println("objectsSize: " + objects.length);
+//                System.out.println("objectsSize: " + objects.length);
                 Color cl = (Color) objects[i];
                 g.setColor(cl);
 //                System.out.println( getPoints().get(cl) );

@@ -60,8 +60,14 @@ public class ViewWindow extends JFrame {
                 System.out.println(e.getKeyCode());
 
                 if (e.getKeyCode() == 65) {
-                   analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), getTitle());
-                    analysisWindow.window();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), getTitle());
+                            analysisWindow.window();
+                        }
+                    }).start();
+
                 }
 
                 switch (e.getKeyCode()) {
@@ -239,7 +245,6 @@ public class ViewWindow extends JFrame {
 //                            }
 
 
-
 //                            res.close();
 //                            settings.dispose();
 //                            frame.dispose();
@@ -312,9 +317,9 @@ public class ViewWindow extends JFrame {
     }
 
     public void classMethod() {
-        System.out.println("getFrames: " + ViewWindow.getFrames().length );
-        for ( Frame o : ViewWindow.getFrames() ) {
-            System.out.println( o.getTitle() );
+        System.out.println("getFrames: " + ViewWindow.getFrames().length);
+        for (Frame o : ViewWindow.getFrames()) {
+            System.out.println(o.getTitle());
         }
     }
 

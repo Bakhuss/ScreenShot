@@ -24,7 +24,7 @@ public class AnalysisWindow extends JFrame {
     int numberCount;
 
 
-    public AnalysisWindow(BufferedImage bImage, String title){
+    public AnalysisWindow(BufferedImage bImage, String title) {
         this.bImage = bImage;
         this.title = title;
     }
@@ -33,7 +33,7 @@ public class AnalysisWindow extends JFrame {
         colors = new Colors(bImage);
         colors.getCountColors();
 
-        setSize(getWidthW(),getHeightW());
+        setSize(getWidthW(), getHeightW());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 //        setResizable(false);
@@ -42,12 +42,12 @@ public class AnalysisWindow extends JFrame {
         setHeightW(getHeight());
 
         JPanel jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp,BoxLayout.Y_AXIS));
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
         add(jp);
         Panel panel = new Panel();
 
         JPanel jpButtons = new JPanel();
-        jpButtons.setLayout(new BoxLayout(jpButtons,BoxLayout.X_AXIS));
+        jpButtons.setLayout(new BoxLayout(jpButtons, BoxLayout.X_AXIS));
         jp.add(jpButtons);
         JButton qtColors = new JButton("Кол-во оттенков");
         jpButtons.add(qtColors);
@@ -55,41 +55,18 @@ public class AnalysisWindow extends JFrame {
         jpButtons.add(btEmptyPanel);
 
         JTextField jtfNumberCount = new JTextField();
-        jtfNumberCount.setMaximumSize(new Dimension(50,50));
+        jtfNumberCount.setMaximumSize(new Dimension(50, 50));
         jpButtons.add(jtfNumberCount);
         JButton bNumberCount = new JButton("ok");
         jpButtons.add(bNumberCount);
 
-
-//        bNumberCount.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                super.mousePressed(e);
-//                try {
-//                    int b = Integer.valueOf(jtfNumberCount.getText());
-//                    if ( b < 0 ) throw new  ClassCastException("Только положительное число !!");
-//                    if (b > colors.getSizes().size()-1) throw new ClassCastException("Такого цвета нет на этом изображении!!");
-//                    if (b == 0) {
-//                        emptyWindow.getPoints().clear();
-//                        emptyWindow.repaint();
-//                        return;
-//                    }
-//                    setNumberCount( b - 1 );
-//                    setPointsToEmptyWindow(getNumberCount());
-//                    System.out.println("NumberCount: " + (getNumberCount() + 1) );
-//                    emptyWindow.repaint();
-//                } catch (ClassCastException ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-//        });
 
         btEmptyPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 if (e.getButton() == 1) {
+
 
                     System.out.println(getbImage().getWidth() + " " + getbImage().getHeight());
                     emptyWindow = new EmptyWindow(getbImage().getWidth(), getbImage().getHeight(), getAnalysTitle());
@@ -100,17 +77,22 @@ public class AnalysisWindow extends JFrame {
                             super.mousePressed(e);
                             try {
                                 int b = Integer.valueOf(jtfNumberCount.getText());
-                                if ( b < 0 ) throw new  ClassCastException("Только положительное число !!");
-                                if (b > colors.getSizes().size()) throw new ClassCastException("Такого цвета нет на этом изображении!!");
+                                if (b < 0) throw new ClassCastException("Только положительное число !!");
+                                if (b > colors.getTempp().size())
+                                    throw new ClassCastException("Такого цвета нет на этом изображении!!");
                                 if (b == 0) {
                                     emptyWindow.getPoints().clear();
                                     emptyWindow.repaint();
                                     return;
                                 }
-                                setNumberCount( b - 1 );
-                                setPointsToEmptyWindow(getNumberCount());
-                                System.out.println("NumberCount: " + (getNumberCount() + 1) );
-                                emptyWindow.repaint();
+                                setNumberCount(b - 1);
+
+                                if ( setPointsToEmptyWindow(getNumberCount()) ) {
+                                    emptyWindow.repaint();
+                                    System.out.println("NumberCount: " + (getNumberCount() + 1));
+                                }
+
+
                             } catch (ClassCastException ex) {
                                 ex.printStackTrace();
                             }
@@ -118,16 +100,6 @@ public class AnalysisWindow extends JFrame {
                         }
                     });
 
-
-//                    ArrayList<Color> cl = colors.getKeyByValue(0);
-//
-//                    ArrayList<Integer> aliint = colors.getCountColorsMap().get(cl.get(0));
-//                    emptyWindow.getPoints().put(cl.get(0), aliint);
-//
-//                    cl = colors.getKeyByValue(4);
-//                    System.out.println("Цвет5: " + cl);
-//                    aliint = colors.getCountColorsMap().get(cl.get(0));
-//                    emptyWindow.getPoints().put(cl.get(0), aliint);
 
                     emptyWindow.repaint();
                 }
@@ -139,12 +111,7 @@ public class AnalysisWindow extends JFrame {
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 if (e.getButton() == 1) {
-//                    colors = new Colors(bImage);
 
-                    colors.getCountColors();
-//                    setTitle( String.valueOf(colors.getCountColorsMap().size()) );
-
-//                    jp.add(panel);
                     panel.setBackground(Color.WHITE);
                     Dimension panelSize = panel.getSize();
                     System.out.println(panelSize);
@@ -167,13 +134,12 @@ public class AnalysisWindow extends JFrame {
                 super.componentResized(e);
                 setWidthW(getWidth());
                 setHeightW(getHeight());
-//                System.out.println("Width: " + getWidth() + " " + getHeight());
 
                 panel.repaint();
             }
         });
 
-        setTitle( String.valueOf(colors.getCountColorsMap().size()) );
+        setTitle(String.valueOf(colors.getTempp().size()));
 
         jp.add(panel);
         panel.setBackground(Color.WHITE);
@@ -189,55 +155,38 @@ public class AnalysisWindow extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-//            Object[] clr = colors.getCountColorsMap().keySet().toArray();
-
-//            System.out.println("clr: " + clr.length);
-//            System.out.println(getWidthW() + " " + getHeightW());
 
             int x = 1, y = 1;
 
             int a = 0;
-            for (int i = 0; i < colors.getSizes().size()-1; i++) {
+            for ( Color o : colors.getTempp().values() ) {
 
-                a += colors.getKeyByValue(i).size();
-
-                for ( Color o : colors.getKeyByValue(i) ) {
-//                    System.out.println("Цвет на AnalysisWindow: " + o.getRGB());
-                    g.setColor(o);
-                    g.fillRect(x, y, 10,10);
-                    x = x + 11;
-                    if (x > getWidthW()-10) {
-                        x = 1;
-                        y = y + 11;
-                    }
-                    if (y > getHeightW()-60) break;
+                g.setColor(o);
+                g.fillRect(x, y, 10, 10);
+                x = x + 11;
+                if (x > getWidthW() - 10) {
+                    x = 1;
+                    y = y + 11;
                 }
-                i += colors.getKeyByValue(i).size()-1;
+                if (y > getHeightW() - 60) break;
+
 
             }
-//            System.out.println("colorsSizeKeyByValue: " + a);
+
 
             new Color(-15988736);
-//            for ( int i = 0; i < clr.length; i++ ) {
-//                g.setColor( (Color) clr[i]);
-//                g.fillRect(x, y, 10,10);
-//                x = x + 11;
-//                if (x > getWidthW()-10) {
-//                    x = 1;
-//                    y = y + 11;
-//                }
-//                if (y > getHeightW()-60) break;
-//            }
 
         }
     }
 
-    public void setPointsToEmptyWindow(int numberCount) {
-        ArrayList<Color> cl = colors.getKeyByValue(numberCount);
+    public boolean setPointsToEmptyWindow(int numberCount) {
+        ArrayList<Color> cl = new ArrayList<>(colors.getTempp().values());
+        if (emptyWindow.getPoints().containsKey(cl.get(numberCount))) return false;
 
-        ArrayList<Integer> aliint = colors.getCountColorsMap().get(cl.get(0));
-        emptyWindow.getPoints().put(cl.get(0), aliint);
-//        System.out.println(cl.get(0).getRGB());
+        ArrayList<Integer> aliint = colors.getNKeyByValue(cl.get(numberCount));
+        System.out.println("aliint: " + aliint.size() + " Цвет: " + cl.get(numberCount).getRGB());
+        emptyWindow.getPoints().put(cl.get(numberCount), aliint);
+        return true;
     }
 
 
