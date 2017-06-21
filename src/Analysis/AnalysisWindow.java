@@ -180,14 +180,12 @@ public class AnalysisWindow extends JFrame {
     }
 
     public boolean setPointsToEmptyWindow(int numberCount) {
-//        ArrayList<Color> cl = colors.getKeyByValue(numberCount);
         ArrayList<Color> cl = new ArrayList<>(colors.getTempp().values());
         if (emptyWindow.getPoints().containsKey(cl.get(numberCount))) return false;
 
         ArrayList<Integer> aliint = colors.getNKeyByValue(cl.get(numberCount));
         System.out.println("aliint: " + aliint.size() + " Цвет: " + cl.get(numberCount).getRGB());
         emptyWindow.getPoints().put(cl.get(numberCount), aliint);
-//        System.out.println(cl.get(0).getRGB());
         return true;
     }
 

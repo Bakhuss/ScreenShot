@@ -18,8 +18,11 @@ public class Colors {
 
     //    private HashMap<Color, ArrayList<Integer>> countColors = null;
 
+//    private HashMap<ArrayList<Integer>, Color> countColors = null;
+//    private TreeMap<ArrayList<Integer>, Color> tempp = null;
+
     private HashMap<ArrayList<Integer>, Color> countColors = null;
-    TreeMap<ArrayList<Integer>, Color> tempp = null;
+    private TreeMap<ArrayList<Integer>, Color> tempp = null;
 
     private ArrayList<Color> pixelColors = null;
     private ArrayList<ArrayList<Integer>> pixelsPoint = null;
@@ -51,85 +54,107 @@ public class Colors {
 
         long time2 = System.currentTimeMillis();
 
-//        int Tread_Count = 2;
-//        Thread[] trd = new Thread[Tread_Count];
-//        HashMap<ArrayList<Integer>, Color>[] tempCountColorsMap = new HashMap[Tread_Count];
-//        for (int i = 0; i < trd.length; i++) {
-//            final int w = i;
-//            trd[i] = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    int height = bi.getHeight()/Tread_Count;
-//                    tempCountColorsMap[w] = new HashMap<>();
-//                    int pixelNumber = w * height*bi.getWidth() + 1;
-//                    for (int i = w * height + 1; i < (w + 1) * height; i++) {
-//                        for (int j = 0; j < bi.getWidth(); j++) {
-//                            Color rgbC = new Color(bi.getRGB(j, i));
-//
-//                            if (!tempCountColorsMap[w].containsValue(rgbC)) {
-//                                tempCountColorsMap[w].put(new ArrayList<>(), rgbC);
-//                            }
-//                            getKeyByValue(rgbC).add(pixelNumber);
-//                            pixelNumber++;
-//
-//                            if (getCountColorsMap().size() % 30000 == 0) {
-//                                System.out.println("Size: " + getCountColorsMap().size());
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            });
-//            trd[i].start();
-//        }
-//
+        int Tread_Count = 4;
+        Thread[] trd = new Thread[Tread_Count];
+        HashMap<ArrayList<Integer>, Color>[] tempCountColorsMap = new HashMap[Tread_Count];
+        for (int i = 0; i < trd.length; i++) {
+            final int w = i;
+            trd[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int height = bi.getHeight()/Tread_Count;
+                    tempCountColorsMap[w] = new HashMap<>();
+                    int pixelNumber = w * height*bi.getWidth() + 1;
+                    int iBefor = (w + 1) * height;
+                    if (w == trd.length-1) iBefor = bi.getHeight();
+                    for (int i = w * height; i < iBefor; i++) {
+                        for (int j = 0; j < bi.getWidth(); j++) {
+                            Color rgbC = new Color(bi.getRGB(j, i));
 
+                            if (!tempCountColorsMap[w].containsValue(rgbC)) {
+                                tempCountColorsMap[w].put(new ArrayList<>(), rgbC);
+                            }
+                            getKeyByValue(tempCountColorsMap[w], rgbC).add(pixelNumber);
+                            pixelNumber++;
 
-
-
-        int pixelNumber = 1;
-        System.out.println("bi: " + bi.getWidth() + " " + bi.getHeight());
-        for (int i = 0; i < bi.getHeight(); i++) {
-            for (int j = 0; j < bi.getWidth(); j++) {
-                Color rgbC = new Color(bi.getRGB(j, i));
-
-                if (!getCountColorsMap().containsValue(rgbC)) {
-                    getCountColorsMap().put(new ArrayList<>(), rgbC);
+                            if (tempCountColorsMap[w].size() % 30000 == 0) {
+                                System.out.println("Size " + w + ": " + tempCountColorsMap[w].size());
+                            }
+                        }
+                    }
                 }
-                getKeyByValue(rgbC).add(pixelNumber);
-                pixelNumber++;
-
-                if (getCountColorsMap().size() % 30000 == 0) {
-                    System.out.println("Size: " + getCountColorsMap().size());
-                }
-
+            });
+            trd[i].start();
+        }
+        for ( Thread o : trd ) {
+            try {
+                o.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
+        for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {
+            Object[] obj = o.values().toArray();
+            for ( Object b : obj ) {
+                Color rgbC = (Color) b;
+                if (!getCountColorsMap().containsValue(rgbC)) {
+                    getCountColorsMap().put(new ArrayList<>(), rgbC);
+                }
+                getKeyByValue(getCountColorsMap(), rgbC).addAll(getKeyByValue(o,rgbC));
+            }
+        }
+        for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {
+            o = null;
+        }
+
+
+
+
+
+//        int pixelNumber = 1;
+//        System.out.println("bi: " + bi.getWidth() + " " + bi.getHeight());
+//        for (int i = 0; i < bi.getHeight(); i++) {
+//            for (int j = 0; j < bi.getWidth(); j++) {
+//                Color rgbC = new Color(bi.getRGB(j, i));
+//
+//                if (!getCountColorsMap().containsValue(rgbC)) {
+//                    getCountColorsMap().put(new ArrayList<>(), rgbC);
+//                }
+//                getKeyByValue(rgbC).add(pixelNumber);
+//                pixelNumber++;
+//
+//                if (getCountColorsMap().size() % 30000 == 0) {
+//                    System.out.println("Size: " + getCountColorsMap().size());
+//                }
+//
+//            }
+//        }
+
         tempp.putAll(getCountColorsMap());
 
-        File file = new File("tempp.txt");
-        if (!file.exists()) try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        FileOutputStream fos;
-        ObjectOutputStream oos;
-        try {
-            oos = new ObjectOutputStream(new FileOutputStream("tempp.txt"));
-            oos.writeObject(getCountColorsMap());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        File file = new File("tempp.txt");
+//        if (!file.exists()) try {
+//            file.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        FileOutputStream fos;
+//        ObjectOutputStream oos;
+//        try {
+//            oos = new ObjectOutputStream(new FileOutputStream("tempp.txt"));
+//            oos.writeObject(getCountColorsMap());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 
 
         System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
-        System.out.println(pixelNumber - 1);
+//        System.out.println(pixelNumber - 1);
 
         System.out.println(getCountColorsMap().size());
         setCountColorsMap(null);
@@ -149,14 +174,16 @@ public class Colors {
     }
 
 
-    public ArrayList<Integer> getKeyByValue(Color color) {
+    public ArrayList<Integer> getKeyByValue(HashMap<ArrayList<Integer>, Color> hashMap, Color color) {
 
-        Set<Map.Entry<ArrayList<Integer>, Color>> entrySet = getCountColorsMap().entrySet();
+        Set<Map.Entry<ArrayList<Integer>, Color>> entrySet = hashMap.entrySet();
         for (Map.Entry<ArrayList<Integer>, Color> pair : entrySet) {
             if (pair.getValue().equals(color)) return pair.getKey();
         }
         return new ArrayList<>();
     }
+
+
 
 
     public ArrayList<Integer> getNKeyByValue(Color color) {
@@ -167,6 +194,8 @@ public class Colors {
         }
         return new ArrayList<>();
     }
+
+
 
 
     public void setCountColorsMap(HashMap<ArrayList<Integer>, Color> countColors) {
