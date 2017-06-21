@@ -87,7 +87,7 @@ public class AnalysisWindow extends JFrame {
                                 }
                                 setNumberCount(b - 1);
 
-                                if ( setPointsToEmptyWindow(getNumberCount()) ) {
+                                if (setPointsToEmptyWindow(getNumberCount())) {
                                     emptyWindow.repaint();
                                     System.out.println("NumberCount: " + (getNumberCount() + 1));
                                 }
@@ -156,22 +156,51 @@ public class AnalysisWindow extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            int x = 1, y = 1;
+            int x = 29, y = 11;
+            g.setColor(Color.BLACK);
+            String str = "123";
+            g.setFont(new Font("name", Font.PLAIN, 9));
+            for (int i = 0; i < getWidthW()/12; i++) {
+                g.drawString(String.valueOf(i+1), x, y);
+                if (i == 8 || i == 98) x = x + 18;
+                else x = x + 21;
+            }
 
-            int a = 0;
-            for ( Color o : colors.getTempp().values() ) {
+            x = 8;
+            y = 22;
+            for (int i = 0; i < getHeightW()/12; i++) {
+                if (i == 9) x = 6;
+                if (i == 99) x = 3;
+                g.drawString(String.valueOf(i+1), x, y);
+                y = y + 15;
+            }
+
+            x = 22;
+            y = 12;
+            for (Color o : colors.getTempp().values()) {
 
                 g.setColor(o);
-                g.fillRect(x, y, 10, 10);
-                x = x + 11;
-                if (x > getWidthW() - 10) {
-                    x = 1;
-                    y = y + 11;
+                g.fillRect(x, y, 20, 14);
+                x = x + 21;
+                if (x > getWidthW() - 22) {
+                    x = 22;
+                    y = y + 15;
                 }
                 if (y > getHeightW() - 60) break;
-
-
             }
+
+
+//            for (Color o : colors.getTempp().values()) {
+//
+//                g.setColor(o);
+//                g.fillRect(x, y, 10, 10);
+//                x = x + 11;
+//                if (x > getWidthW() - 22) {
+//                    x = 1;
+//                    y = y + 11;
+//                }
+//                if (y > getHeightW() - 60) break;
+//            }
 
 
             new Color(-15988736);
