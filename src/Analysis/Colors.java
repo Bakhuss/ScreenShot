@@ -49,16 +49,18 @@ public class Colors {
 
         long time2 = System.currentTimeMillis();
 
-        int Tread_Count = Runtime.getRuntime().availableProcessors()-1;
+        int Tread_Count = Runtime.getRuntime().availableProcessors() - 1;
+        if (Tread_Count == 0) Tread_Count = 1;
         System.out.println("Tread_Count: " + Tread_Count);
         Thread[] trd = new Thread[Tread_Count];
         HashMap<ArrayList<Integer>, Color>[] tempCountColorsMap = new HashMap[Tread_Count];
         for (int i = 0; i < trd.length; i++) {
             final int w = i;
+            final int tread_count = Tread_Count;
             trd[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int height = bi.getHeight()/Tread_Count;
+                    int height = bi.getHeight()/tread_count;
                     tempCountColorsMap[w] = new HashMap<>();
                     int pixelNumber = w * height*bi.getWidth() + 1;
                     int iBefor = (w + 1) * height;
