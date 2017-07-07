@@ -16,11 +16,6 @@ public class Colors {
 //                    int blue = (rgb) & 0xff;
 //                    System.out.println(red + " " + green + " " + blue);
 
-    //    private HashMap<Color, ArrayList<Integer>> countColors = null;
-
-//    private HashMap<ArrayList<Integer>, Color> countColors = null;
-//    private TreeMap<ArrayList<Integer>, Color> tempp = null;
-
     private HashMap<ArrayList<Integer>, Color> countColors = null;
     private TreeMap<ArrayList<Integer>, Color> tempp = null;
 
@@ -54,7 +49,8 @@ public class Colors {
 
         long time2 = System.currentTimeMillis();
 
-        int Tread_Count = 4;
+        int Tread_Count = Runtime.getRuntime().availableProcessors()-1;
+        System.out.println("Tread_Count: " + Tread_Count);
         Thread[] trd = new Thread[Tread_Count];
         HashMap<ArrayList<Integer>, Color>[] tempCountColorsMap = new HashMap[Tread_Count];
         for (int i = 0; i < trd.length; i++) {
@@ -77,7 +73,7 @@ public class Colors {
                             getKeyByValue(tempCountColorsMap[w], rgbC).add(pixelNumber);
                             pixelNumber++;
 
-                            if (tempCountColorsMap[w].size() % 30000 == 0) {
+                            if (tempCountColorsMap[w].size() % 15000 == 0) {
                                 System.out.println("Size " + w + ": " + tempCountColorsMap[w].size());
                             }
                         }
@@ -93,7 +89,9 @@ public class Colors {
                 e.printStackTrace();
             }
         }
+        System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
 
+        long t2 = System.currentTimeMillis();
         for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {
             Object[] obj = o.values().toArray();
             for ( Object b : obj ) {
@@ -103,14 +101,9 @@ public class Colors {
                 }
                 getKeyByValue(getCountColorsMap(), rgbC).addAll(getKeyByValue(o,rgbC));
             }
-        }
-        for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {
             o = null;
         }
-
-
-
-
+        System.out.println("Время объединения временных массивов в постоянный: " + (System.currentTimeMillis() - t2));
 
 //        int pixelNumber = 1;
 //        System.out.println("bi: " + bi.getWidth() + " " + bi.getHeight());
@@ -150,10 +143,6 @@ public class Colors {
 //            e.printStackTrace();
 //        }
 
-
-
-
-        System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
 //        System.out.println(pixelNumber - 1);
 
         System.out.println(getCountColorsMap().size());

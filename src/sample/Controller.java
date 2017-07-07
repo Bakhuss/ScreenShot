@@ -172,6 +172,7 @@ public class Controller {
     public void getView(ActionEvent actionEvent) {
         if (ScreenCapture.isScreening()) return;
         getMemoryInfo();
+        System.out.println("Количество ядер: " + Runtime.getRuntime().availableProcessors());
 
         new Thread(new Runnable() {
             @Override
