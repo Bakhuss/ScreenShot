@@ -2,10 +2,12 @@ package Analysis;
 
 
 import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
+import sample.SQLHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
@@ -23,13 +25,15 @@ public class Colors {
     private ArrayList<ArrayList<Integer>> pixelsPoint = null;
 
     private BufferedImage bi;
+    private String title;
 
 
     public Colors() {
     }
 
-    public Colors(BufferedImage bi) {
+    public Colors(BufferedImage bi, String title) {
         this.bi = bi;
+        this.title = title;
     }
 
 
@@ -92,6 +96,42 @@ public class Colors {
             }
         }
         System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
+
+
+        String tableName = "'" + "Colors_RGB_" + title + "'";
+        String sqlNameTable = "CREATE TABLE " + tableName + " (Color INT, PixelNumber INT);";
+        String sqlStr = "insert into " + tableName + " (Color, PixelNumber) values (?,?);";
+        SQLHandler sendColorsToSQL = new SQLHandler();
+        long time = System.currentTimeMillis();
+        try {
+            sendColorsToSQL.connect();
+            System.out.println("Кол-во подключений к БД: " + SQLHandler.getConnectionCount());
+            sendColorsToSQL.getStmt().executeUpdate(sqlNameTable);
+            sendColorsToSQL.setPstmt(sendColorsToSQL.getConnection().prepareStatement(sqlStr));
+
+            Object[] tempColors = tempCountColorsMap[0].values().toArray();
+            System.out.println(tempColors.length);
+            for (int i = 0; i < tempColors.length; i++) {
+                ArrayList<Integer> tempArray = getKeyByValue(tempCountColorsMap[0], (Color) tempColors[i]);
+                for (int j = 0; j < tempArray.size(); j++) {
+                    sendColorsToSQL.getConnection().setAutoCommit(false);
+                    sendColorsToSQL.getPstmt().setInt(1, ((Color) tempColors[i]).getRGB() );
+                    sendColorsToSQL.getPstmt().setInt(2, tempArray.get(j));
+                    sendColorsToSQL.getPstmt().addBatch();
+                }
+                sendColorsToSQL.getPstmt().executeBatch();
+            }
+            sendColorsToSQL.getConnection().setAutoCommit(true);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            sendColorsToSQL.disconnect();
+        }
+        System.out.println("Время записи цветов в БД: " + (System.currentTimeMillis() - time) );
+
+
 
         long t2 = System.currentTimeMillis();
         for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {

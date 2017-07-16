@@ -30,7 +30,7 @@ public class AnalysisWindow extends JFrame {
     }
 
     public void window() {
-        colors = new Colors(bImage);
+        colors = new Colors(bImage, getAnalysTitle());
         colors.getCountColors();
 
         setSize(getWidthW(), getHeightW());
