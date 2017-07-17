@@ -31,7 +31,10 @@ public class AnalysisWindow extends JFrame {
 
     public void window() {
         colors = new Colors(bImage, getAnalysTitle());
-        colors.getCountColors();
+        colors.getCountColors2();
+
+
+/*
 
         setSize(getWidthW(), getHeightW());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -147,6 +150,10 @@ public class AnalysisWindow extends JFrame {
         panel.repaint();
         setVisible(true);
         System.out.println(panel.getSize());
+
+
+*/
+
     }
 
 

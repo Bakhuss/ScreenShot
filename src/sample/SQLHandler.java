@@ -39,7 +39,24 @@ public class SQLHandler {
         connection = DriverManager.getConnection(urlDB);
 
         stmt = connection.createStatement();
-        createTable("MetaData");
+
+
+//        String sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
+//                "    photo_id     INTEGER REFERENCES Photo (media_id) \n" +
+//                "                         NOT NULL,\n" +
+//                "    pixel_number INTEGER NOT NULL,\n" +
+//                "    color        INTEGER NOT NULL\n" +
+//                ");";
+
+
+        String sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
+                "    photo_id     TEXT,\n" +
+                "    pixel_number INTEGER NOT NULL,\n" +
+                "    color        INTEGER NOT NULL\n" +
+                ");";
+
+        stmt.execute(sql);
+//        createTable("MetaData");
     }
 
     public void disconnect() {
@@ -123,4 +140,5 @@ public class SQLHandler {
     public void setPstmt(PreparedStatement pstmt) {
         this.pstmt = pstmt;
     }
+
 }

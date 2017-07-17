@@ -7,6 +7,8 @@ import sample.SQLHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -41,10 +43,86 @@ public class Colors {
     }
 
 
+    public void getCountColors2() {
+        System.out.println("Colors2");
+
+        int Tread_Count = Runtime.getRuntime().availableProcessors() - 1;
+        if (Tread_Count == 0) Tread_Count = 1;
+        System.out.println("Tread_Count: " + Tread_Count);
+        Thread[] trd = new Thread[Tread_Count];
+        SQLHandler[] sendColorsToSQL = new SQLHandler[Tread_Count];
+
+
+        long time = System.currentTimeMillis();
+        for (int i = 0; i < trd.length; i++) {
+            final int w = i;
+            final int tread_count = Tread_Count;
+            trd[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    int height = bi.getHeight() / tread_count;
+                    int pixelNumber = w * height * bi.getWidth() + 1;
+                    int iBefor = (w + 1) * height;
+                    if (w == trd.length - 1) iBefor = bi.getHeight();
+
+                    try {
+                        String sqlStr = "insert into Pixels (photo_id, pixel_number, color) values (?, ?, ?);";
+                        sendColorsToSQL[w] = new SQLHandler();
+                        sendColorsToSQL[w].connect();
+                        sendColorsToSQL[w].setPstmt(sendColorsToSQL[w].getConnection().prepareStatement(sqlStr));
+                        sendColorsToSQL[w].getConnection().setAutoCommit(false);
+                        for (int i = w * height; i < iBefor; i++) {
+                            for (int j = 0; j < bi.getWidth(); j++) {
+
+                                sendColorsToSQL[w].getPstmt().setString(1, title);
+                                sendColorsToSQL[w].getPstmt().setInt(2, pixelNumber);
+                                sendColorsToSQL[w].getPstmt().setInt(3, bi.getRGB(j, i));
+                                sendColorsToSQL[w].getPstmt().addBatch();
+                                pixelNumber++;
+//                                sendColorsToSQL[w].getPstmt().executeBatch();
+                            }
+                        }
+
+//                        sendColorsToSQL[w].getConnection().setAutoCommit(true);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        System.out.println("Disconnect");
+//                        sendColorsToSQL[w].disconnect();
+                    }
+
+                }
+            });
+            trd[i].start();
+        }
+
+        for (Thread o : trd) {
+            try {
+                o.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for ( SQLHandler o : sendColorsToSQL ) {
+            try {
+                o.getPstmt().executeBatch();
+                o.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                o.disconnect();
+            }
+        }
+
+        System.out.println("Время записи в БД из Colors2: " + (System.currentTimeMillis() - time));
+    }
+
+
+
     public void getCountColors() {
-
         System.out.println("Colors");
-
         setCountColorsMap(new HashMap<>());
 
         tempp = new TreeMap<>(new Comparator<ArrayList<Integer>>() {
@@ -56,7 +134,6 @@ public class Colors {
         });
 
         long time2 = System.currentTimeMillis();
-
         int Tread_Count = Runtime.getRuntime().availableProcessors() - 1;
         if (Tread_Count == 0) Tread_Count = 1;
         System.out.println("Tread_Count: " + Tread_Count);
@@ -68,11 +145,11 @@ public class Colors {
             trd[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int height = bi.getHeight()/tread_count;
+                    int height = bi.getHeight() / tread_count;
                     tempCountColorsMap[w] = new HashMap<>();
-                    int pixelNumber = w * height*bi.getWidth() + 1;
+                    int pixelNumber = w * height * bi.getWidth() + 1;
                     int iBefor = (w + 1) * height;
-                    if (w == trd.length-1) iBefor = bi.getHeight();
+                    if (w == trd.length - 1) iBefor = bi.getHeight();
                     for (int i = w * height; i < iBefor; i++) {
                         for (int j = 0; j < bi.getWidth(); j++) {
                             Color rgbC = new Color(bi.getRGB(j, i));
@@ -92,7 +169,7 @@ public class Colors {
             });
             trd[i].start();
         }
-        for ( Thread o : trd ) {
+        for (Thread o : trd) {
             try {
                 o.join();
             } catch (InterruptedException e) {
@@ -101,6 +178,8 @@ public class Colors {
         }
         System.out.println("Время анализа количества цветов: " + (System.currentTimeMillis() - time2));
 
+
+/*
 
         String tableName = "'" + "Colors_RGB_" + title + "'";
         String sqlNameTable = "CREATE TABLE " + tableName + " (Color INT, PixelNumber INT);";
@@ -119,7 +198,7 @@ public class Colors {
                 ArrayList<Integer> tempArray = getKeyByValue(tempCountColorsMap[0], (Color) tempColors[i]);
                 for (int j = 0; j < tempArray.size(); j++) {
                     sendColorsToSQL.getConnection().setAutoCommit(false);
-                    sendColorsToSQL.getPstmt().setInt(1, ((Color) tempColors[i]).getRGB() );
+                    sendColorsToSQL.getPstmt().setInt(1, ((Color) tempColors[i]).getRGB());
                     sendColorsToSQL.getPstmt().setInt(2, tempArray.get(j));
                     sendColorsToSQL.getPstmt().addBatch();
                 }
@@ -133,19 +212,22 @@ public class Colors {
         } finally {
             sendColorsToSQL.disconnect();
         }
-        System.out.println("Время записи цветов в БД: " + (System.currentTimeMillis() - time) );
+        System.out.println("Время записи цветов в БД: " + (System.currentTimeMillis() - time));
 
 
+*/
+
+        getCountColors2();
 
         long t2 = System.currentTimeMillis();
-        for ( HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap ) {
+        for (HashMap<ArrayList<Integer>, Color> o : tempCountColorsMap) {
             Object[] obj = o.values().toArray();
-            for ( Object b : obj ) {
+            for (Object b : obj) {
                 Color rgbC = (Color) b;
                 if (!getCountColorsMap().containsValue(rgbC)) {
                     getCountColorsMap().put(new ArrayList<>(), rgbC);
                 }
-                getKeyByValue(getCountColorsMap(), rgbC).addAll(getKeyByValue(o,rgbC));
+                getKeyByValue(getCountColorsMap(), rgbC).addAll(getKeyByValue(o, rgbC));
             }
             o = null;
         }
@@ -197,6 +279,7 @@ public class Colors {
 
         new Color(-1315600);
 
+
     }
 
 
@@ -219,8 +302,6 @@ public class Colors {
     }
 
 
-
-
     public ArrayList<Integer> getNKeyByValue(Color color) {
 
         Set<Map.Entry<ArrayList<Integer>, Color>> entrySet = getTempp().entrySet();
@@ -229,8 +310,6 @@ public class Colors {
         }
         return new ArrayList<>();
     }
-
-
 
 
     public void setCountColorsMap(HashMap<ArrayList<Integer>, Color> countColors) {
