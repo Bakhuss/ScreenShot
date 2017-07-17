@@ -13,10 +13,14 @@ import java.util.List;
 
 public class Colors {
 
+//                    int alpha = (rgb >> 24) & 0xff;
 //                    int red = (rgb >> 16) & 0xff;
 //                    int green = (rgb >> 8) & 0xff;
 //                    int blue = (rgb) & 0xff;
-//                    System.out.println(red + " " + green + " " + blue);
+//                    System.out.println(red + " " + green + " " + blue + " " + alpha);
+//                    rgb = blue | (green << 8) | (red << 16) | (alpha << 24);
+//                    System.out.println(rbg);
+
 
     private HashMap<ArrayList<Integer>, Color> countColors = null;
     private TreeMap<ArrayList<Integer>, Color> tempp = null;
