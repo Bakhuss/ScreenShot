@@ -39,24 +39,55 @@ public class SQLHandler {
         connection = DriverManager.getConnection(urlDB);
 
         stmt = connection.createStatement();
+        String sql;
 
+        sql = "CREATE TABLE IF NOT EXISTS Name (\n" +
+                "    name_id       INTEGER PRIMARY KEY AUTOINCREMENT\n" +
+                "                          UNIQUE\n" +
+                "                          NOT NULL,\n" +
+                "    name          TEXT,\n" +
+                "    first_name_id INTEGER REFERENCES First_Name (first_name_id),\n" +
+                "    last_name_id  INTEGER REFERENCES Last_Name (last_name_id),\n" +
+                "    surname_id    INTEGER REFERENCES Surname (surname_id) \n" +
+                ");";
+        stmt.execute(sql);
 
-//        String sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
-//                "    photo_id     INTEGER REFERENCES Photo (media_id) \n" +
-//                "                         NOT NULL,\n" +
-//                "    pixel_number INTEGER NOT NULL,\n" +
-//                "    color        INTEGER NOT NULL\n" +
-//                ");";
+        sql = "CREATE TABLE IF NOT EXISTS Info (\n" +
+                "    info_id INTEGER PRIMARY KEY AUTOINCREMENT\n" +
+                "                    UNIQUE\n" +
+                "                    NOT NULL,\n" +
+                "    name_id INTEGER REFERENCES Name (name_id) \n" +
+                "                    NOT NULL\n" +
+                ");";
+        stmt.execute(sql);
 
+        sql = "CREATE TABLE IF NOT EXISTS Media (\n" +
+                "    media_id      INTEGER NOT NULL\n" +
+                "                          UNIQUE\n" +
+                "                          PRIMARY KEY AUTOINCREMENT,\n" +
+                "    info_id       INTEGER REFERENCES Info (info_id) \n" +
+                "                          NOT NULL,\n" +
+                "    media_type_id INTEGER REFERENCES Media_Type (media_type_id) \n" +
+                "                          NOT NULL,\n" +
+                "    count_frames  INTEGER\n" +
+                ");";
+        stmt.execute(sql);
 
-        String sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
+        sql = "CREATE TABLE IF NOT EXISTS Photo (\n" +
+                "    media_id INTEGER REFERENCES Media (media_id) \n" +
+                "                     NOT NULL,\n" +
+                "    photo_id INT     NOT NULL,\n" +
+                "    image    BLOB    NOT NULL\n" +
+                ");";
+        stmt.execute(sql);
+
+        sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
                 "    photo_id     TEXT,\n" +
                 "    pixel_number INTEGER NOT NULL,\n" +
                 "    color        INTEGER NOT NULL\n" +
                 ");";
 
         stmt.execute(sql);
-//        createTable("MetaData");
     }
 
     public void disconnect() {
@@ -74,18 +105,6 @@ public class SQLHandler {
         fileDB.createNewFile();
         System.out.println("Создание дб");
     }
-
-    public void createTable(String tblName) throws SQLException {
-        String tableName = tblName;
-        String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
-                     " name TEXT NOT NULL,\n" +
-                     " date TEXT NOT NULL,\n" +
-                     " Colors BIGINT\n" +
-                     ");";
-
-        stmt.execute(sql);
-    }
-
 
 
     public void getAllTables() throws SQLException {

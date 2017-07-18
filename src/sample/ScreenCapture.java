@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,8 @@ int blue = (argb ) & 0xff;
 */
 
     //    private static ArrayList<BufferedImage> bi = null;
-    static TreeMap<Long, BufferedImage> bi = null;
+//    static TreeMap<Long, BufferedImage> bi = null;
+    static HashMap<Long, BufferedImage> bi = null;
 
 //    private static ArrayList<BufferedImage>[] bi = new ArrayList[2];
 
@@ -301,7 +303,7 @@ int blue = (argb ) & 0xff;
 
     public static void getScreen() throws Exception {
         screening = true;
-        if (bi == null) bi = new TreeMap<>();
+        if (bi == null) bi = new HashMap<>();
         else {
             System.out.println(bi.size());
             bi.clear();
@@ -332,6 +334,10 @@ int blue = (argb ) & 0xff;
         while (screenThreads[0].isAlive() & screenThreads[1].isAlive() & screenThreads[2].isAlive()) {
         }
 
+        for ( Thread o : screenThreads ) {
+            o.join();
+        }
+
         time += System.currentTimeMillis() - t;
 
         long t1 = time / bi.size();
@@ -349,7 +355,7 @@ int blue = (argb ) & 0xff;
     }
 
 
-    public static TreeMap<Long, BufferedImage> getBi() {
+    public static HashMap<Long, BufferedImage> getBi() {
         return bi;
     }
 
@@ -366,6 +372,7 @@ int blue = (argb ) & 0xff;
     public static void saveToSQLBase() {
         System.out.println("SaveToSQLBase");
         savingToSql = true;
+
         SQLHandler saveToBase = new SQLHandler();
         new Thread(new Runnable() {
             @Override
@@ -376,20 +383,111 @@ int blue = (argb ) & 0xff;
                 String tableName = "'" + date + "'";
 
                 String sqlNameTable = "CREATE TABLE " + tableName + " (name TEXT REFERENCES MetaData (name), img  BLOB);";
-                String sqlStr = "insert into " + tableName + " (name, img) values (?,?);";
+//                String sqlStr = "insert into " + tableName + " (name, img) values (?,?);";
+                String sqlStr = "insert into Photo (media_id, photo_id, image) values (?, ?, ?);";
                 System.out.println(sqlStr);
+
+
+
+
 
                 try {
                     saveToBase.connect();
                     saveToBase.getStmt().executeUpdate(sqlNameTable);
                     saveToBase.setPstmt(saveToBase.getConnection().prepareStatement(sqlStr));
+
+                    String media_type = "'photo'";
+
+                    String sql;
+                    ResultSet rs;
+
+                    sql = "select media_type_id from Media_Type where media_type = " + media_type;
+                    rs = saveToBase.getStmt().executeQuery(sql);
+                    rs.next();
+                    int media_type_id = rs.getInt(1);
+                    System.out.println(media_type_id);
+
+                    sql = "insert into Name (name) values (" + tableName + ");";
+                    saveToBase.getStmt().execute(sql);
+
+                    sql = "select name_id from Name where name = " + tableName;
+                    rs = saveToBase.getStmt().executeQuery(sql);
+                    rs.next();
+                    int name_id = rs.getInt(1);
+                    sql = "insert into Info (name_id) values (" + name_id + ")";
+                    saveToBase.getStmt().execute(sql);
+                    System.out.println("name_id: " + name_id);
+
+                    sql = "select info_id from Info where name_id = " + name_id;
+                    rs = saveToBase.getStmt().executeQuery(sql);
+                    rs.next();
+                    int info_id = rs.getInt(1);
+                    sql = "insert into Media (info_id, media_type_id) values (" + info_id + ", " + media_type_id + ")";
+                    saveToBase.getStmt().execute(sql);
+                    System.out.println("info_id: " + info_id);
+
+                    sql = "select media_id from Media where info_id = " + info_id;
+                    rs = saveToBase.getStmt().executeQuery(sql);
+                    rs.next();
+                    int media_id = rs.getInt(1);
+                    System.out.println("media_id: " + media_id);
+
+
                     saveToBase.getConnection().setAutoCommit(false);
 
 
-                    Object[] bis = bi.values().toArray();
-                    bi = null;
-                    System.out.println(bis.length);
+//                    Object[] bis = bi.values().toArray();
+                    System.out.println("Map.Entry");
+//                    for ( Map.Entry o : bi.entrySet() ) {
+//                        System.out.println( o.getKey() );
+//                    }
+
+//                    bi = null;
+                    System.out.println(bi.size());
                     long time = System.currentTimeMillis();
+
+                    for ( Map.Entry o : bi.entrySet() ) {
+
+                        try {
+                            ByteArrayOutputStream baos = null;
+                            baos = new ByteArrayOutputStream();
+                            ImageIO.write((BufferedImage) o.getValue(), "jpg", baos);
+//                            ImageIO.write(bi.get(i), "jpg", baos);
+                            baos.close();
+                            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                            try {
+
+                                String str = String.valueOf( o.getKey() );
+                                String substr = str.substring(str.length()-6);
+
+
+                                saveToBase.getPstmt().setInt(1, media_id);
+                                saveToBase.getPstmt().setInt(2, Integer.valueOf(substr));
+                                saveToBase.getPstmt().setBinaryStream(3, bais, baos.toByteArray().length);
+                                saveToBase.getPstmt().addBatch();
+
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+//                        ImageIO.write(bi[i], "jpg", file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    saveToBase.getPstmt().executeBatch();
+                    time = System.currentTimeMillis() - time;
+                    System.out.println("SQLsaveTimeAvrg: " + time / bi.size());
+//                    bis = null;
+                    bi = null;
+                    saveToBase.getConnection().setAutoCommit(true);
+
+
+
+
+
+/*
+
                     for (int i = 0; i < bis.length; i++) {
 //                    str = "screen/screen" + i + ".jpg";
 //                    file = new File(str);
@@ -401,10 +499,18 @@ int blue = (argb ) & 0xff;
                             baos.close();
                             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
                             try {
-                                saveToBase.getPstmt().setString(1, "screen" + i);
-                                saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
+
+
+
+                                saveToBase.getPstmt().setInt(1, media_id);
+                                saveToBase.getPstmt().setInt(2, i);
+                                saveToBase.getPstmt().setBinaryStream(3, bais, baos.toByteArray().length);
                                 saveToBase.getPstmt().addBatch();
-                                if (i % 200 == 0) saveToBase.getPstmt().executeBatch();
+
+//                                saveToBase.getPstmt().setString(1, "screen" + i);
+//                                saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
+//                                saveToBase.getPstmt().addBatch();
+//                                if (i % 200 == 0) saveToBase.getPstmt().executeBatch();
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -418,6 +524,9 @@ int blue = (argb ) & 0xff;
                     System.out.println("SQLsaveTimeAvrg: " + time / bis.length);
                     bis = null;
                     saveToBase.getConnection().setAutoCommit(true);
+
+*/
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
