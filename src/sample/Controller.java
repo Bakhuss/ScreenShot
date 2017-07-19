@@ -65,6 +65,10 @@ public class Controller {
     Thread[] threads = new Thread[1];
     static double timeProgress = 0;
 
+    int name_id = 0;
+    int info_id = 0;
+    int media_id = 0;
+
 
     public void initialize() {
         tablesName = new ArrayList<>();
@@ -405,16 +409,28 @@ public class Controller {
                 @Override
                 public void run() {
                     try {
-                        System.out.println("Connect from method getViewFrames");
-                        String sql_name_id = "select name_id from Name where name = '" + title + "'";
-                        String sql_info_id = "select info_id from Info where name_id = (" + sql_name_id + ")";
-                        String sql_media_id = "select media_id from Media where info_id = (" + sql_info_id + ")";
-                        String sql_photo = "select image from Photo where media_id = (" + sql_media_id + ") order by photo_id asc;";
-                        viewFramesFromSQL.connect();
-//                        viewFramesFromSQL.setPstmt(viewFramesFromSQL.getConnection().prepareStatement("select img from '" + title + "';"));
-                        viewFramesFromSQL.setPstmt(viewFramesFromSQL.getConnection().prepareStatement(sql_photo));
+                        ResultSet resultSet;
 
-                        ResultSet resultSet = viewFramesFromSQL.getPstmt().executeQuery();
+                        System.out.println("Connect from method getViewFrames");
+
+                        String sql = "select Name.name_id, Info.info_id, Media.media_id from Name\n" +
+                                "    inner join Info on Name.name_id = Info.name_id\n" +
+                                "    inner join Media on Info.info_id = Media.info_id\n" +
+                                "    where name = '" + title + "';";
+
+                        viewFramesFromSQL.connect();
+
+                        resultSet = viewFramesFromSQL.getStmt().executeQuery(sql);
+                        resultSet.next();
+                        setName_id(resultSet.getInt(1));
+                        setInfo_id(resultSet.getInt(2));
+                        setMedia_id(resultSet.getInt(3));
+                        System.out.println("Name: " + getName_id() + " Info: " + getInfo_id() + " Media: " + getMedia_id());
+                        resultSet.close();
+
+                        String sql_photo = "select image from Photo where media_id = (" + getMedia_id() + ") order by photo_id asc;";
+
+                        resultSet = viewFramesFromSQL.getStmt().executeQuery(sql_photo);
 
                         while (resultSet.next()) {
                             InputStream is = resultSet.getBinaryStream(1);
@@ -456,32 +472,16 @@ public class Controller {
                 public void run() {
                     System.out.println("Title: " + title);
                     System.out.println(bi.size());
-                    ViewWindow viewWindow = new ViewWindow(bi, title);
+                    ViewWindow viewWindow = new ViewWindow(bi, title, getName_id(), getInfo_id(), getMedia_id());
                     getTablesName().add(title);
 
                     for (int i = 0; i < getTablesName().size(); i++) {
                         System.out.println(getTablesName().get(i));
                     }
-
                 }
             });
             tr.start();
-
         }
-
-
-//        System.out.println("Title: " + title);
-//        System.out.println(bi.size());
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ViewWindow viewWindow = new ViewWindow(bi, title);
-//            }
-//        });
-//        thread.setDaemon(true);
-//        thread.start();
-
-
     }
 
     public void mouseClickedFromTable(MouseEvent mouseEvent) {
@@ -530,4 +530,30 @@ public class Controller {
         mainFrame.setOpacity(1);
 
     }
+
+
+    public int getMedia_id() {
+        return media_id;
+    }
+
+    public void setMedia_id(int media_id) {
+        this.media_id = media_id;
+    }
+
+    public int getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(int name_id) {
+        this.name_id = name_id;
+    }
+
+    public int getInfo_id() {
+        return info_id;
+    }
+
+    public void setInfo_id(int info_id) {
+        this.info_id = info_id;
+    }
+
 }

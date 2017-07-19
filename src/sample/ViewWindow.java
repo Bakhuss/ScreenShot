@@ -17,9 +17,12 @@ public class ViewWindow extends JFrame {
     int width;
     int height;
     String title;
+    int name_id;
+    int info_id;
+    int media_id;
     Image img;
     ImageIcon image;
-//    JPanel jp;
+
     ArrayList<BufferedImage> bi;
     int currentScreenCount;
     Rectangle currentJpRect;
@@ -28,11 +31,14 @@ public class ViewWindow extends JFrame {
     Panal jp = new Panal();
 
 
-    public ViewWindow(ArrayList<BufferedImage> bi, String title) {
+    public ViewWindow(ArrayList<BufferedImage> bi, String title, int name_id, int info_id, int media_id) {
 
         this.currentScreenCount = 0;
         this.bi = bi;
         this.title = title;
+        this.name_id = name_id;
+        this.info_id = info_id;
+        this.media_id = media_id;
 
         newWindow();
         classMethod();
@@ -189,6 +195,7 @@ public class ViewWindow extends JFrame {
     }
 
     public class Settings extends JFrame {
+        SQLHandler dropFrame;
         SQLHandler dropTable;
         JFrame frame;
 
@@ -216,9 +223,9 @@ public class ViewWindow extends JFrame {
                 jlSettings[i].setFont(new Font("name", Font.ITALIC, 13));
                 jpSettings.add(jlSettings[i]);
             }
-            jlSettings[0].setText("Delete all frames");
+            jlSettings[0].setText("Delete this frame");
             jlSettings[1].setText(" ");
-            jlSettings[2].setText("Delete this frame");
+            jlSettings[2].setText("Delete all frames");
 
             jlSettings[0].addMouseListener(new MouseAdapter() {
                 @Override
@@ -228,29 +235,9 @@ public class ViewWindow extends JFrame {
                     if (e.getButton() == 1) {
                         frame = (JFrame) component;
                         method();
+                        settings.dispose();
                         if (getBi().size() < 1) frame.dispose();
                         else jp.repaint();
-
-
-//                            ResultSet res = SQLHandler.stmt.executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
-
-
-//                            if (res.next()) {
-//                                System.out.println("Не удалось удалить. Попробуйте снова.");
-//                            }
-
-
-//                            if (!res.next()) {
-//                                settings.dispose();
-//                                frame.dispose();
-//                            } else {
-//                                System.out.println("Не удалось удалить. Попробуйте снова.");
-//                            }
-
-
-//                            res.close();
-//                            settings.dispose();
-//                            frame.dispose();
                     }
                 }
 
@@ -274,6 +261,12 @@ public class ViewWindow extends JFrame {
                 public void mouseReleased(MouseEvent e) {
                     super.mouseReleased(e);
 
+                    if (e.getButton() == 1) {
+                        frame = (JFrame) component;
+                        deleteAllFrames();
+                        settings.dispose();
+                        frame.dispose();
+                    }
                 }
 
                 @Override
@@ -294,32 +287,54 @@ public class ViewWindow extends JFrame {
         }
 
         void method() {
-            String sqlQuery = "select rowid from Photo where media_id = 7 order by photo_id asc;";
-            dropTable = new SQLHandler();
+            String sqlQuery = "select rowid from Photo where media_id = " + getMedia_id() + " order by photo_id asc;";
+            dropFrame = new SQLHandler();
             ResultSet res = null;
             try {
-                dropTable.connect();
-                System.out.println("Delete " + title);
-                res = dropTable.getStmt().executeQuery(sqlQuery);
+                dropFrame.connect();
+                System.out.println("Delete Frame " + title + " | " + (currentScreenCount+1) );
+                res = dropFrame.getStmt().executeQuery(sqlQuery);
                 for (int i = 0; i < currentScreenCount+1; i++) {
                     res.next();
                 }
                 sqlQuery = "delete from Photo where rowid = " + res.getInt(1) + ";";
-                dropTable.getStmt().execute(sqlQuery);
+                dropFrame.getStmt().execute(sqlQuery);
                 getBi().remove(currentScreenCount);
                 System.out.println("BI: " + getBi().size());
                 if (currentScreenCount > getBi().size()-1) currentScreenCount = getBi().size()-1;
                 if (currentScreenCount < 0) currentScreenCount = 0;
-                System.out.println("currentScreenCount after delete frame: " + currentScreenCount);
+                System.out.println("currentScreenCount after delete frame: " + (currentScreenCount+1) );
 
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                dropTable.disconnect();
+                dropFrame.disconnect();
                 Controller.getTablesName().remove(title);
-                settings.dispose();
             }
+        }
 
+        void deleteAllFrames() {
+            System.out.println("deleteAllFrames");
+            System.out.println("Name: " + getName_id() + " Info: " + getInfo_id() + " Media: " + getMedia_id());
+
+            String sqlPhoto = "delete from Photo where media_id = " + getMedia_id();
+            String sqlMedia = "delete from Media where media_id = " + getMedia_id();
+            String sqlInfo = "delete from Info where info_id = " + getInfo_id();
+            String sqlName = "delete from Name where name_id = " + getName_id();
+
+            dropTable = new SQLHandler();
+            try {
+                dropTable.connect();
+                System.out.println("Delete Table: " + title);
+                dropTable.getStmt().execute(sqlPhoto);
+                dropTable.getStmt().execute(sqlMedia);
+                dropTable.getStmt().execute(sqlInfo);
+                dropTable.getStmt().execute(sqlName);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                dropTable.disconnect();
+            }
         }
     }
 
@@ -343,4 +358,18 @@ public class ViewWindow extends JFrame {
     public void color() {
         new Color(-6968132);
     }
+
+
+    public int getMedia_id() {
+        return media_id;
+    }
+
+    public int getName_id() {
+        return name_id;
+    }
+
+    public int getInfo_id() {
+        return info_id;
+    }
+
 }

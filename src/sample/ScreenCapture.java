@@ -434,13 +434,8 @@ int blue = (argb ) & 0xff;
                     saveToBase.getConnection().setAutoCommit(false);
 
 
-//                    Object[] bis = bi.values().toArray();
                     System.out.println("Map.Entry");
-//                    for ( Map.Entry o : bi.entrySet() ) {
-//                        System.out.println( o.getKey() );
-//                    }
 
-//                    bi = null;
                     System.out.println(bi.size());
                     long time = System.currentTimeMillis();
 
@@ -478,51 +473,6 @@ int blue = (argb ) & 0xff;
                     System.out.println("SQLsaveTimeAvrg: " + time / bi.size());
                     bi = null;
                     saveToBase.getConnection().setAutoCommit(true);
-
-
-
-
-
-/*
-
-                    for (int i = 0; i < bis.length; i++) {
-//                    str = "screen/screen" + i + ".jpg";
-//                    file = new File(str);
-                        try {
-                            ByteArrayOutputStream baos = null;
-                            baos = new ByteArrayOutputStream();
-                            ImageIO.write((BufferedImage) bis[i], "jpg", baos);
-//                            ImageIO.write(bi.get(i), "jpg", baos);
-                            baos.close();
-                            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-                            try {
-
-
-
-                                saveToBase.getPstmt().setInt(1, media_id);
-                                saveToBase.getPstmt().setInt(2, i);
-                                saveToBase.getPstmt().setBinaryStream(3, bais, baos.toByteArray().length);
-                                saveToBase.getPstmt().addBatch();
-
-//                                saveToBase.getPstmt().setString(1, "screen" + i);
-//                                saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
-//                                saveToBase.getPstmt().addBatch();
-//                                if (i % 200 == 0) saveToBase.getPstmt().executeBatch();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-//                        ImageIO.write(bi[i], "jpg", file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    saveToBase.getPstmt().executeBatch();
-                    time = System.currentTimeMillis() - time;
-                    System.out.println("SQLsaveTimeAvrg: " + time / bis.length);
-                    bis = null;
-                    saveToBase.getConnection().setAutoCommit(true);
-
-*/
 
                 } catch (SQLException e) {
                     e.printStackTrace();
