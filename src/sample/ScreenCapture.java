@@ -476,7 +476,6 @@ int blue = (argb ) & 0xff;
                     saveToBase.getPstmt().executeBatch();
                     time = System.currentTimeMillis() - time;
                     System.out.println("SQLsaveTimeAvrg: " + time / bi.size());
-//                    bis = null;
                     bi = null;
                     saveToBase.getConnection().setAutoCommit(true);
 

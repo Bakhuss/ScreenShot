@@ -19,12 +19,13 @@ public class ViewWindow extends JFrame {
     String title;
     Image img;
     ImageIcon image;
-    JPanel jp;
+//    JPanel jp;
     ArrayList<BufferedImage> bi;
     int currentScreenCount;
     Rectangle currentJpRect;
     Settings settings = null;
     AnalysisWindow analysisWindow = null;
+    Panal jp = new Panal();
 
 
     public ViewWindow(ArrayList<BufferedImage> bi, String title) {
@@ -47,7 +48,7 @@ public class ViewWindow extends JFrame {
         setLocationRelativeTo(null);
 
         img = bi.get(currentScreenCount);
-        jp = new Panal();
+//        jp = new Panal();
         add(jp);
         currentJpRect = jp.getBounds();
         setTitle();
@@ -57,7 +58,7 @@ public class ViewWindow extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                System.out.println(e.getKeyCode());
+//                System.out.println(e.getKeyCode());
 
                 if (e.getKeyCode() == 65) {
                     new Thread(new Runnable() {
@@ -227,6 +228,8 @@ public class ViewWindow extends JFrame {
                     if (e.getButton() == 1) {
                         frame = (JFrame) component;
                         method();
+                        if (getBi().size() < 1) frame.dispose();
+                        else jp.repaint();
 
 
 //                            ResultSet res = SQLHandler.stmt.executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
@@ -291,22 +294,30 @@ public class ViewWindow extends JFrame {
         }
 
         void method() {
-            String sqlQuery = "drop table '" + title + "';";
+            String sqlQuery = "select rowid from Photo where media_id = 7 order by photo_id asc;";
             dropTable = new SQLHandler();
             ResultSet res = null;
             try {
                 dropTable.connect();
                 System.out.println("Delete " + title);
-                dropTable.getStmt().executeUpdate(sqlQuery);
-                res = dropTable.getStmt().executeQuery("select * from sqlite_master where type = 'table' and name = '" + title + "';");
-                if (res.next()) System.out.println("Не удалось удалить. Попробуйте снова.");
+                res = dropTable.getStmt().executeQuery(sqlQuery);
+                for (int i = 0; i < currentScreenCount+1; i++) {
+                    res.next();
+                }
+                sqlQuery = "delete from Photo where rowid = " + res.getInt(1) + ";";
+                dropTable.getStmt().execute(sqlQuery);
+                getBi().remove(currentScreenCount);
+                System.out.println("BI: " + getBi().size());
+                if (currentScreenCount > getBi().size()-1) currentScreenCount = getBi().size()-1;
+                if (currentScreenCount < 0) currentScreenCount = 0;
+                System.out.println("currentScreenCount after delete frame: " + currentScreenCount);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 dropTable.disconnect();
                 Controller.getTablesName().remove(title);
                 settings.dispose();
-                frame.dispose();
             }
 
         }

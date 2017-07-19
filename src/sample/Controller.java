@@ -380,11 +380,76 @@ public class Controller {
 //            return;
         } else {
 
-            final SQLHandler viewFrames = new SQLHandler();
+            final SQLHandler viewFramesFromSQL = new SQLHandler();
             getMemoryInfo();
             System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
 
             ArrayList<BufferedImage> bi = new ArrayList<>();
+//            System.out.println(bi.size());
+//            Thread tr = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    System.out.println("Title: " + title);
+//                    System.out.println(bi.size());
+//                    ViewWindow viewWindow = new ViewWindow(bi, title);
+//                    getTablesName().add(title);
+//
+//                    for (int i = 0; i < getTablesName().size(); i++) {
+//                        System.out.println(getTablesName().get(i));
+//                    }
+//
+//                }
+//            });
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println("Connect from method getViewFrames");
+                        String sql_name_id = "select name_id from Name where name = '" + title + "'";
+                        String sql_info_id = "select info_id from Info where name_id = (" + sql_name_id + ")";
+                        String sql_media_id = "select media_id from Media where info_id = (" + sql_info_id + ")";
+                        String sql_photo = "select image from Photo where media_id = (" + sql_media_id + ") order by photo_id asc;";
+                        viewFramesFromSQL.connect();
+//                        viewFramesFromSQL.setPstmt(viewFramesFromSQL.getConnection().prepareStatement("select img from '" + title + "';"));
+                        viewFramesFromSQL.setPstmt(viewFramesFromSQL.getConnection().prepareStatement(sql_photo));
+
+                        ResultSet resultSet = viewFramesFromSQL.getPstmt().executeQuery();
+
+                        while (resultSet.next()) {
+                            InputStream is = resultSet.getBinaryStream(1);
+                            try {
+                                bi.add(ImageIO.read(is));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+//                            if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
+//                                try {
+//                                    tr.start();
+//                                } catch (IllegalThreadStateException ie) {
+//                                    ie.printStackTrace();
+//                                    break;
+//                                }
+//                            }
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        viewFramesFromSQL.disconnect();
+                        System.out.println("Disconnect from method getViewFrames");
+                    }
+                }
+            });
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
             System.out.println(bi.size());
             Thread tr = new Thread(new Runnable() {
                 @Override
@@ -400,44 +465,7 @@ public class Controller {
 
                 }
             });
-
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        System.out.println("Connect from method getViewFrames");
-                        viewFrames.connect();
-                        viewFrames.setPstmt(viewFrames.getConnection().prepareStatement("select img from '" + title + "';"));
-
-                        ResultSet resultSet = viewFrames.getPstmt().executeQuery();
-
-                        while (resultSet.next()) {
-                            InputStream is = resultSet.getBinaryStream(1);
-                            try {
-                                bi.add(ImageIO.read(is));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
-                                try {
-                                    tr.start();
-                                } catch (IllegalThreadStateException ie) {
-                                    ie.printStackTrace();
-                                    break;
-                                }
-                            }
-                        }
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } finally {
-                        viewFrames.disconnect();
-                        System.out.println("Disconnect from method getViewFrames");
-                    }
-                }
-            });
-            thread.start();
+            tr.start();
 
         }
 
