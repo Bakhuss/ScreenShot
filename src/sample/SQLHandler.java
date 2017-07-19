@@ -61,6 +61,29 @@ public class SQLHandler {
                 ");";
         stmt.execute(sql);
 
+        sql = "CREATE TABLE IF NOT EXISTS Media_Type (\n" +
+                "    media_type_id INTEGER PRIMARY KEY AUTOINCREMENT\n" +
+                "                          UNIQUE\n" +
+                "                          NOT NULL,\n" +
+                "    media_type    TEXT    UNIQUE\n" +
+                "                          NOT NULL\n" +
+                ");";
+        stmt.execute(sql);
+
+        sql = "select count(*) from Media_Type;";
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        if (rs.getInt(1) != 3) {
+            sql = "insert into Media_Type (media_type) values ('photo');";
+            stmt.execute(sql);
+            sql = "insert into Media_Type (media_type) values ('video');";
+            stmt.execute(sql);
+            sql = "insert into Media_Type (media_type) values ('audio');";
+            stmt.execute(sql);
+        }
+
+
+
         sql = "CREATE TABLE IF NOT EXISTS Media (\n" +
                 "    media_id      INTEGER NOT NULL\n" +
                 "                          UNIQUE\n" +
@@ -135,6 +158,10 @@ public class SQLHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void createMetaType() {
 
     }
 

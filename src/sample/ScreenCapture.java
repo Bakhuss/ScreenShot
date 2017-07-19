@@ -401,8 +401,11 @@ int blue = (argb ) & 0xff;
 
                     sql = "select media_type_id from Media_Type where media_type = " + media_type;
                     rs = saveToBase.getStmt().executeQuery(sql);
+                    System.out.println("getColumnCount: " + rs.getMetaData().getColumnName(1) );
                     rs.next();
+                    System.out.println("До");
                     int media_type_id = rs.getInt(1);
+                    System.out.println("После");
                     System.out.println(media_type_id);
 
                     sql = "insert into Name (name) values (" + tableName + ");";
