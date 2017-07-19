@@ -81,6 +81,42 @@ public class SQLHandler {
                 ");";
         stmt.execute(sql);
 
+        sql = "CREATE TRIGGER IF NOT EXISTS set_media_count_frames1\n" +
+                "         AFTER INSERT\n" +
+                "            ON Photo\n" +
+                "BEGIN\n" +
+                "    UPDATE Media\n" +
+                "       SET count_frames = (\n" +
+                "               SELECT count( * ) \n" +
+                "                 FROM Photo\n" +
+                "                WHERE Photo.media_id = NEW.media_id\n" +
+                "           )\n" +
+                "     WHERE Media.media_id = NEW.media_id;\n" +
+                "END;";
+        stmt.execute(sql);
+
+        sql = "CREATE TRIGGER IF NOT EXISTS update_media_count_frames1\n" +
+                "         AFTER DELETE\n" +
+                "            ON Photo\n" +
+                "BEGIN\n" +
+                "    UPDATE Media\n" +
+                "       SET count_frames = (\n" +
+                "               SELECT count( * ) \n" +
+                "                 FROM Photo\n" +
+                "                WHERE Photo.media_id = OLD.media_id\n" +
+                "           )\n" +
+                "     WHERE Media.media_id = OLD.media_id;\n" +
+                "END;";
+        stmt.execute(sql);
+
+        sql = "CREATE INDEX IF NOT EXISTS index_photo_id ON Photo (\n" +
+                "    media_id ASC,\n" +
+                "    photo_id ASC\n" +
+                ");";
+        stmt.execute(sql);
+
+
+
         sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
                 "    photo_id     TEXT,\n" +
                 "    pixel_number INTEGER NOT NULL,\n" +
@@ -88,6 +124,7 @@ public class SQLHandler {
                 ");";
 
         stmt.execute(sql);
+
     }
 
     public void disconnect() {
@@ -108,21 +145,16 @@ public class SQLHandler {
 
 
     public void getAllTables() throws SQLException {
-        ResultSet res = stmt.executeQuery("select name from sqlite_master where type = 'table';");
-        ResultSet resFrames = null;
+        String sql = "select name, count_frames from Info\n" +
+                "      inner join Name on Info.name_id = Name.name_id\n" +
+                "      inner join Media on Info.info_id = Media.info_id;";
+        ResultSet res = stmt.executeQuery(sql);
 
         while (res.next()) {
-            if (res.getString(1).equals("MetaData")) continue;
             ViewFromDB table = new ViewFromDB();
             table.setName(res.getString(1));
-
-            String sqlQuery = "'" + table.getName() + "'";
-            pstmt = connection.prepareStatement("select count(*) from " + sqlQuery + ";");
-            resFrames = pstmt.executeQuery();
-
-            table.setFrames(resFrames.getInt(1));
+            table.setFrames(res.getInt(2));
             Controller.ScreenShots.add(table);
-            resFrames.close();
         }
         res.close();
 

@@ -382,8 +382,7 @@ int blue = (argb ) & 0xff;
                 String date = dateFormat.format(dateNow);
                 String tableName = "'" + date + "'";
 
-                String sqlNameTable = "CREATE TABLE " + tableName + " (name TEXT REFERENCES MetaData (name), img  BLOB);";
-//                String sqlStr = "insert into " + tableName + " (name, img) values (?,?);";
+//                String sqlNameTable = "CREATE TABLE " + tableName + " (name TEXT REFERENCES MetaData (name), img  BLOB);";
                 String sqlStr = "insert into Photo (media_id, photo_id, image) values (?, ?, ?);";
                 System.out.println(sqlStr);
 
@@ -393,7 +392,6 @@ int blue = (argb ) & 0xff;
 
                 try {
                     saveToBase.connect();
-                    saveToBase.getStmt().executeUpdate(sqlNameTable);
                     saveToBase.setPstmt(saveToBase.getConnection().prepareStatement(sqlStr));
 
                     String media_type = "'photo'";
