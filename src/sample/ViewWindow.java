@@ -306,47 +306,57 @@ public class ViewWindow extends JFrame {
         }
 
         void deleteCurrentFrame() {
-            String sqlQuery = "select rowid, photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1;";
+            System.out.println("Delete current Frame " + title + " | " + (currentScreenCount+1) );
             dropFrame = new SQLHandler();
-            ResultSet res = null;
-            try {
-                dropFrame.connect();
-                System.out.println("Delete current Frame " + title + " | " + (currentScreenCount+1) );
-                res = dropFrame.getStmt().executeQuery(sqlQuery);
-                res.next();
-                int rowid = res.getInt(1);
-                int photo_id = res.getInt(2);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String sqlQuery = "select rowid, photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1;";
+                    ResultSet res = null;
+                    long time = System.currentTimeMillis();
+                    try {
+                        dropFrame.connect();
+                        res = dropFrame.getStmt().executeQuery(sqlQuery);
+                        res.next();
+                        int rowid = res.getInt(1);
+                        int photo_id = res.getInt(2);
 
-                sqlQuery = "select count(*) from Pixels where photo_id = " + photo_id + ";";
-                res = dropFrame.getStmt().executeQuery(sqlQuery);
-                res.next();
-                System.out.println("count(*) from Pixels where photo_id = " + photo_id + ": " + res.getInt(1));
-                if (res.getInt(1) != 0) {
-                    sqlQuery = "delete from Pixels where photo_id = " + photo_id + ";";
-                    dropFrame.getStmt().execute(sqlQuery);
+                        sqlQuery = "select count(*) from Pixels where photo_id = " + photo_id + ";";
+                        res = dropFrame.getStmt().executeQuery(sqlQuery);
+                        res.next();
+                        System.out.println("count(*) from Pixels where photo_id = " + photo_id + ": " + res.getInt(1));
+                        if (res.getInt(1) != 0) {
+                            sqlQuery = "delete from Pixels where photo_id = " + photo_id + ";";
+                            dropFrame.getStmt().execute(sqlQuery);
+                        }
+
+                        sqlQuery = "delete from Photo where rowid = " + rowid + ";";
+                        dropFrame.getStmt().execute(sqlQuery);
+
+                        getBi().remove(currentScreenCount);
+                        System.out.println("BI: " + getBi().size());
+                        if (currentScreenCount > getBi().size()-1) currentScreenCount = getBi().size()-1;
+                        if (currentScreenCount < 0) currentScreenCount = 0;
+                        System.out.println("currentScreenCount after delete frame: " + (currentScreenCount+1) );
+                        System.out.println("Метод deleteCurrentFrame() выполнен успешно:\n" +
+                                           "запись " + (currentScreenCount+1) + " | " + title + " удалена из БД.");
+
+                    } catch (SQLException e) {
+                        System.out.println("Ошибка при выполнении метода deleteCurrentFrame():\n" +
+                                           "запись " + (currentScreenCount+1) + " | " + title + " не удалось удалить из БД.");
+                        e.printStackTrace();
+                    } finally {
+                        dropFrame.disconnect();
+                        Controller.getTablesName().remove(title);
+                    }
+                    System.out.println("Время работы метода deleteCurrentFrame(): " + (System.currentTimeMillis() - time) );
                 }
-
-                sqlQuery = "delete from Photo where rowid = " + rowid + ";";
-                dropFrame.getStmt().execute(sqlQuery);
-
-                getBi().remove(currentScreenCount);
-                System.out.println("BI: " + getBi().size());
-                if (currentScreenCount > getBi().size()-1) currentScreenCount = getBi().size()-1;
-                if (currentScreenCount < 0) currentScreenCount = 0;
-                System.out.println("currentScreenCount after delete frame: " + (currentScreenCount+1) );
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                dropFrame.disconnect();
-                Controller.getTablesName().remove(title);
-            }
+            }).start();
         }
 
         void deleteAllFrames() {
             System.out.println("deleteAllFrames");
             System.out.println("Name: " + getName_id() + " Info: " + getInfo_id() + " Media: " + getMedia_id());
-
 
             String sqlPhotoId = "select distinct Photo.photo_id from Photo\n" +
                     "    inner join Pixels on Photo.photo_id = Pixels.photo_id\n" +
@@ -384,7 +394,8 @@ public class ViewWindow extends JFrame {
                         System.out.println("Метод deleteAllFrames() выполнен успешно:\n" +
                                            "запись " + title + " удалена из БД.");
                     } catch (SQLException e) {
-                        System.out.println("Ошибка при выполнении метода deleteAllFrames()");
+                        System.out.println("Ошибка при выполнении метода deleteAllFrames():\n" +
+                                           "запись " + title + " не удалось удалить из БД.");
                         e.printStackTrace();
                     } finally {
                         dropTable.disconnect();
@@ -393,28 +404,6 @@ public class ViewWindow extends JFrame {
                 }
             }).start();
 
-//            try {
-//                dropTable.connect();
-//                System.out.println("Delete Table: " + title);
-//                dropTable.setPstmt(dropTable.getConnection().prepareStatement(sqlPixels));
-//                ResultSet rs = dropTable.getStmt().executeQuery(sqlPhotoId);
-//                dropTable.getConnection().setAutoCommit(false);
-//                while (rs.next()) {
-//                    dropTable.getPstmt().setInt(1, rs.getInt(1));
-//                    dropTable.getPstmt().addBatch();
-//                }
-//                dropTable.getPstmt().executeBatch();
-//                dropTable.getConnection().setAutoCommit(true);
-//
-//                dropTable.getStmt().execute(sqlPhoto);
-//                dropTable.getStmt().execute(sqlMedia);
-//                dropTable.getStmt().execute(sqlInfo);
-//                dropTable.getStmt().execute(sqlName);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } finally {
-//                dropTable.disconnect();
-//            }
         }
     }
 
