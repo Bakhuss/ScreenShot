@@ -316,6 +316,7 @@ public class ViewWindow extends JFrame {
                 res.next();
                 int rowid = res.getInt(1);
                 int photo_id = res.getInt(2);
+
                 sqlQuery = "select count(*) from Pixels where photo_id = " + photo_id + ";";
                 res = dropFrame.getStmt().executeQuery(sqlQuery);
                 res.next();
