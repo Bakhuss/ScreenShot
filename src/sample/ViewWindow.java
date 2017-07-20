@@ -70,7 +70,26 @@ public class ViewWindow extends JFrame {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), getTitle());
+                            int photo_id = 0;
+                            String sql = "select photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1;";
+                            SQLHandler getPhotoIdFromSQL = new SQLHandler();
+
+                            try {
+                                getPhotoIdFromSQL.connect();
+                                ResultSet rs = getPhotoIdFromSQL.getStmt().executeQuery(sql);
+                                rs.next();
+                                photo_id = rs.getInt(1);
+                                System.out.println("photo_id: " + photo_id);
+
+
+
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            } finally {
+                                getPhotoIdFromSQL.disconnect();
+                            }
+
+                            analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), photo_id);
                             analysisWindow.window();
                         }
                     }).start();
@@ -234,7 +253,7 @@ public class ViewWindow extends JFrame {
 
                     if (e.getButton() == 1) {
                         frame = (JFrame) component;
-                        method();
+                        deleteCurrentFrame();
                         settings.dispose();
                         if (getBi().size() < 1) frame.dispose();
                         else jp.repaint();
@@ -286,19 +305,29 @@ public class ViewWindow extends JFrame {
 
         }
 
-        void method() {
-            String sqlQuery = "select rowid from Photo where media_id = " + getMedia_id() + " order by photo_id asc;";
+        void deleteCurrentFrame() {
+            String sqlQuery = "select rowid, photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1;";
             dropFrame = new SQLHandler();
             ResultSet res = null;
             try {
                 dropFrame.connect();
-                System.out.println("Delete Frame " + title + " | " + (currentScreenCount+1) );
+                System.out.println("Delete current Frame " + title + " | " + (currentScreenCount+1) );
                 res = dropFrame.getStmt().executeQuery(sqlQuery);
-                for (int i = 0; i < currentScreenCount+1; i++) {
-                    res.next();
+                res.next();
+                int rowid = res.getInt(1);
+                int photo_id = res.getInt(2);
+                sqlQuery = "select count(*) from Pixels where photo_id = " + photo_id + ";";
+                res = dropFrame.getStmt().executeQuery(sqlQuery);
+                res.next();
+                System.out.println("count(*) from Pixels where photo_id = " + photo_id + ": " + res.getInt(1));
+                if (res.getInt(1) != 0) {
+                    sqlQuery = "delete from Pixels where photo_id = " + photo_id + ";";
+                    dropFrame.getStmt().execute(sqlQuery);
                 }
-                sqlQuery = "delete from Photo where rowid = " + res.getInt(1) + ";";
+
+                sqlQuery = "delete from Photo where rowid = " + rowid + ";";
                 dropFrame.getStmt().execute(sqlQuery);
+
                 getBi().remove(currentScreenCount);
                 System.out.println("BI: " + getBi().size());
                 if (currentScreenCount > getBi().size()-1) currentScreenCount = getBi().size()-1;

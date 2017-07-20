@@ -32,14 +32,15 @@ public class Colors {
 
     private BufferedImage bi;
     private String title;
+    private int photo_id = 0;
 
 
     public Colors() {
     }
 
-    public Colors(BufferedImage bi, String title) {
+    public Colors(BufferedImage bi, int photo_id) {
         this.bi = bi;
-        this.title = title;
+        this.photo_id = photo_id;
     }
 
 
@@ -75,7 +76,7 @@ public class Colors {
                         for (int i = w * height; i < iBefor; i++) {
                             for (int j = 0; j < bi.getWidth(); j++) {
 
-                                sendColorsToSQL[w].getPstmt().setString(1, title);
+                                sendColorsToSQL[w].getPstmt().setInt(1, getPhoto_id());
                                 sendColorsToSQL[w].getPstmt().setInt(2, pixelNumber);
                                 sendColorsToSQL[w].getPstmt().setInt(3, bi.getRGB(j, i));
                                 sendColorsToSQL[w].getPstmt().addBatch();
@@ -328,4 +329,7 @@ public class Colors {
         this.tempp = tempp;
     }
 
+    public int getPhoto_id() {
+        return photo_id;
+    }
 }

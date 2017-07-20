@@ -17,6 +17,7 @@ public class AnalysisWindow extends JFrame {
 
     BufferedImage bImage = null;
     String title = null;
+    int photo_id = 0;
     Colors colors = null;
     int widthW = 450;
     int heightW = 600;
@@ -24,13 +25,13 @@ public class AnalysisWindow extends JFrame {
     int numberCount;
 
 
-    public AnalysisWindow(BufferedImage bImage, String title) {
+    public AnalysisWindow(BufferedImage bImage, int photo_id) {
         this.bImage = bImage;
-        this.title = title;
+        this.photo_id = photo_id;
     }
 
     public void window() {
-        colors = new Colors(bImage, getAnalysTitle());
+        colors = new Colors(bImage, getPhoto_id());
         colors.getCountColors2();
 
 
@@ -246,8 +247,8 @@ public class AnalysisWindow extends JFrame {
         this.heightW = heightW;
     }
 
-    public String getAnalysTitle() {
-        return title;
+    public int getPhoto_id() {
+        return photo_id;
     }
 
     public int getNumberCount() {

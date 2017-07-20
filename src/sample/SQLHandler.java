@@ -104,7 +104,7 @@ public class SQLHandler {
                 ");";
         stmt.execute(sql);
 
-        sql = "CREATE TRIGGER IF NOT EXISTS set_media_count_frames1\n" +
+        sql = "CREATE TRIGGER IF NOT EXISTS set_media_count_frames\n" +
                 "         AFTER INSERT\n" +
                 "            ON Photo\n" +
                 "BEGIN\n" +
@@ -118,7 +118,7 @@ public class SQLHandler {
                 "END;";
         stmt.execute(sql);
 
-        sql = "CREATE TRIGGER IF NOT EXISTS update_media_count_frames1\n" +
+        sql = "CREATE TRIGGER IF NOT EXISTS update_media_count_frames\n" +
                 "         AFTER DELETE\n" +
                 "            ON Photo\n" +
                 "BEGIN\n" +
@@ -141,7 +141,8 @@ public class SQLHandler {
 
 
         sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
-                "    photo_id     TEXT,\n" +
+                "    photo_id     INTEGER REFERENCES Photo (photo_id) ON DELETE CASCADE\n" +
+                "                         NOT NULL,\n" +
                 "    pixel_number INTEGER NOT NULL,\n" +
                 "    color        INTEGER NOT NULL\n" +
                 ");";
