@@ -89,7 +89,7 @@ public class Colors {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     } finally {
-                        System.out.println("Disconnect");
+//                        System.out.println("Disconnect");
 //                        sendColorsToSQL[w].disconnect();
                     }
 
@@ -113,6 +113,7 @@ public class Colors {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
+                System.out.println("Disconnect");
                 o.disconnect();
             }
         }
