@@ -146,7 +146,11 @@ public class SQLHandler {
                 "    pixel_number INTEGER NOT NULL,\n" +
                 "    color        INTEGER NOT NULL\n" +
                 ");";
+        stmt.execute(sql);
 
+        sql = "CREATE INDEX IF NOT EXISTS index_pixels_photo_id ON Pixels (\n" +
+                "    photo_id ASC\n" +
+                ");";
         stmt.execute(sql);
 
     }

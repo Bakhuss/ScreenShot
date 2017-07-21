@@ -106,17 +106,32 @@ public class Colors {
             }
         }
 
-        for ( SQLHandler o : sendColorsToSQL ) {
+        System.out.println(System.currentTimeMillis()-time);
+        System.out.println("After join in class Colors");
+
+        for (int i = 0; i < sendColorsToSQL.length; i++) {
             try {
-                o.getPstmt().executeBatch();
-                o.getConnection().setAutoCommit(true);
+                sendColorsToSQL[i].getPstmt().executeBatch();
+                sendColorsToSQL[i].getConnection().setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                o.disconnect();
+                sendColorsToSQL[i].disconnect();
                 System.out.println("Disconnect");
             }
         }
+
+//        for ( SQLHandler o : sendColorsToSQL ) {
+//            try {
+//                o.getPstmt().executeBatch();
+//                o.getConnection().setAutoCommit(true);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            } finally {
+//                o.disconnect();
+//                System.out.println("Disconnect");
+//            }
+//        }
 
         System.out.println("Время записи в БД из Colors2: " + (System.currentTimeMillis() - time));
     }
