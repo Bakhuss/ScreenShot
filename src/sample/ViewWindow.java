@@ -52,6 +52,7 @@ public class ViewWindow extends JFrame {
     }
 
     public void newWindow() {
+        System.out.println("ViewWindow title: " + title);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         if (isUndecorated()) setSize(bi.get(currentScreenCount).getWidth(), bi.get(currentScreenCount).getHeight());
@@ -404,7 +405,6 @@ public class ViewWindow extends JFrame {
                         e.printStackTrace();
                     } finally {
                         dropFrame.disconnect();
-                        Controller.getTablesName().remove(title);
                     }
                     System.out.println("Время работы метода deleteCurrentFrame(): " + (System.currentTimeMillis() - time) );
                 }
@@ -425,8 +425,6 @@ public class ViewWindow extends JFrame {
             String sqlMedia = "delete from Media where media_id = " + getMedia_id();
             String sqlInfo = "delete from Info where info_id = " + getInfo_id();
             String sqlName = "delete from Name where name_id = " + getName_id();
-
-            String str = "delete from ? where ? = ?";
 
             dropTable = new SQLHandler();
 
@@ -463,6 +461,8 @@ public class ViewWindow extends JFrame {
                         e.printStackTrace();
                     } finally {
                         dropTable.disconnect();
+                        System.out.println("Title from deleteAllFrames()" + title);
+                        Controller.getTablesName().remove(title);
                     }
                     System.out.println("Время работы метода deleteAllFrames(): " + (System.currentTimeMillis() - time) );
                 }

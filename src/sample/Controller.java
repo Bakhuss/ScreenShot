@@ -375,13 +375,20 @@ public class Controller {
 
         if ( getTablesName().contains(title) ) {
             System.out.println("Contains: " + title);
+
             for ( Frame o : ViewWindow.getFrames() ) {
-                if ( o.getTitle().split(" ")[3].equals(title) ) {
-                    o.setState(Frame.NORMAL);
-                    o.show();
+                System.out.println("Good");
+                if (o.getTitle().equals("")) continue;
+                else {
+                    if (o.getTitle().split(" ")[3].equals(title) && ((ViewWindow)o).getBi().size() != 0 ) {
+                        System.out.println("o.getTitle().split()[3]: " + o.getTitle().split(" ")[3]);
+                        o.setState(Frame.NORMAL);
+                        o.show();
+                        System.out.println(title + " is show");
+                    }
                 }
+
             }
-//            return;
         } else {
 
             final SQLHandler viewFramesFromSQL = new SQLHandler();
@@ -389,21 +396,21 @@ public class Controller {
             System.out.println("1 " + viewFromDBStringCellEditEvent.getRowValue().getName());
 
             ArrayList<BufferedImage> bi = new ArrayList<>();
-//            System.out.println(bi.size());
-//            Thread tr = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    System.out.println("Title: " + title);
-//                    System.out.println(bi.size());
-//                    ViewWindow viewWindow = new ViewWindow(bi, title);
-//                    getTablesName().add(title);
-//
-//                    for (int i = 0; i < getTablesName().size(); i++) {
-//                        System.out.println(getTablesName().get(i));
-//                    }
-//
-//                }
-//            });
+            System.out.println(bi.size());
+            Thread tr = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("Title: " + title);
+                    System.out.println(bi.size());
+                    ViewWindow viewWindow = new ViewWindow(bi, title, getName_id(), getInfo_id(), getMedia_id());
+                    getTablesName().add(title);
+
+                    for (int i = 0; i < getTablesName().size(); i++) {
+                        System.out.println(getTablesName().get(i));
+                    }
+
+                }
+            });
 
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -440,14 +447,15 @@ public class Controller {
                                 e.printStackTrace();
                             }
 
-//                            if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
-//                                try {
-//                                    tr.start();
-//                                } catch (IllegalThreadStateException ie) {
-//                                    ie.printStackTrace();
-//                                    break;
-//                                }
-//                            }
+
+                            if (bi.size() == 1 && tr.getState() != Thread.State.RUNNABLE) {
+                                try {
+                                    tr.start();
+                                } catch (IllegalThreadStateException ie) {
+                                    ie.printStackTrace();
+                                    break;
+                                }
+                            }
                         }
 
                     } catch (SQLException e) {
@@ -466,21 +474,21 @@ public class Controller {
             }
 
 
-            System.out.println(bi.size());
-            Thread tr = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("Title: " + title);
-                    System.out.println(bi.size());
-                    ViewWindow viewWindow = new ViewWindow(bi, title, getName_id(), getInfo_id(), getMedia_id());
-                    getTablesName().add(title);
-
-                    for (int i = 0; i < getTablesName().size(); i++) {
-                        System.out.println(getTablesName().get(i));
-                    }
-                }
-            });
-            tr.start();
+//            System.out.println(bi.size());
+//            Thread tr = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    System.out.println("Title: " + title);
+//                    System.out.println(bi.size());
+//                    ViewWindow viewWindow = new ViewWindow(bi, title, getName_id(), getInfo_id(), getMedia_id());
+//                    getTablesName().add(title);
+//
+//                    for (int i = 0; i < getTablesName().size(); i++) {
+//                        System.out.println(getTablesName().get(i));
+//                    }
+//                }
+//            });
+//            tr.start();
         }
     }
 
