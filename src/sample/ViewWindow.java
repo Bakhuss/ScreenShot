@@ -26,7 +26,7 @@ public class ViewWindow extends JFrame {
     int media_id;
     Image img;
     ImageIcon image;
-    boolean hasEmptyPhoto = true;
+    static boolean isAnalysSeries = false;
 
     ArrayList<BufferedImage> bi;
     int currentScreenCount;
@@ -70,12 +70,15 @@ public class ViewWindow extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                System.out.println(e.getKeyCode());
+//                System.out.println(e.getKeyCode());
+
                 if (e.isControlDown() && e.getKeyCode()==65) {
+                    if (isAnalysSeries) return;
                     System.out.println("Ctrl + A");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            isAnalysSeries = true;
                             String sql = "select photo_id, image from Photo where photo_id = (\n" +
                                     "    select photo_id from Photo where media_id = " + getMedia_id() + "\n" +
                                     "    except\n" +
@@ -86,17 +89,15 @@ public class ViewWindow extends JFrame {
                             Colors colors = null;
 
                             SQLHandler getPhotoIdFromSQL = new SQLHandler();
-
                             try {
                                 getPhotoIdFromSQL.connect();
                                 getPhotoIdFromSQL.getStmt().execute("PRAGMA journal_mode = WAL;");
-                                while (hasEmptyPhoto) {
+                                long time = System.currentTimeMillis();
+                                while (isAnalysSeries) {
                                     ResultSet rs = getPhotoIdFromSQL.getStmt().executeQuery(sql);
                                     if (rs.next()) {
                                         int photo_id = rs.getInt(1);
                                         System.out.println("photo_id: " + photo_id);
-//                                        sql = "select photo_id, image from Photo where photo_id = " + photo_id + ";";
-//                                        rs = getPhotoIdFromSQL.getStmt().executeQuery(sql);
                                         is = rs.getBinaryStream(2);
                                         try {
                                             biTemp = ImageIO.read(is);
@@ -105,15 +106,15 @@ public class ViewWindow extends JFrame {
                                         }
                                         colors = new Colors(biTemp, photo_id);
                                         colors.getCountColors2();
-                                    } else hasEmptyPhoto = false;
+                                    } else isAnalysSeries = false;
                                 }
-                                System.out.println("Анализ всех изображений для media_id = " + getMedia_id() + " завершён");
                                 getPhotoIdFromSQL.getStmt().execute("PRAGMA journal_mode = DELETE;");
+                                System.out.println("Анализ всех изображений для media_id = " + getMedia_id() + " завершён");
+                                System.out.println("Время анализа " +(System.currentTimeMillis() - time));
                             } catch (SQLException e1) {
                                 e1.printStackTrace();
-                                System.out.println("Возникла проблема при анализе всех изображение для media_id = " + getMedia_id());
+                                System.out.println("Возникла проблема при анализе всех изображений для media_id = " + getMedia_id());
                             } finally {
-
                                 getPhotoIdFromSQL.disconnect();
                             }
 
@@ -127,30 +128,41 @@ public class ViewWindow extends JFrame {
                             @Override
                             public void run() {
                                 int photo_id = 0;
-                                String sql = "select photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1;";
-                                SQLHandler getPhotoIdFromSQL = new SQLHandler();
+                                String sql = "select count(*) from Pixels where photo_id = (\n" +
+                                        "    select photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount +",1\n" +
+                                        ");";
 
+                                SQLHandler getPhotoIdFromSQL = new SQLHandler();
                                 try {
                                     getPhotoIdFromSQL.connect();
                                     ResultSet rs = getPhotoIdFromSQL.getStmt().executeQuery(sql);
                                     rs.next();
-                                    photo_id = rs.getInt(1);
-                                    System.out.println("photo_id: " + photo_id);
+                                    if (rs.getInt(1) == 0) {
+                                        sql = "select photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount+ ",1;";
+                                        rs = getPhotoIdFromSQL.getStmt().executeQuery(sql);
+                                        rs.next();
+                                        photo_id = rs.getInt(1);
+                                    }
 
                                 } catch (SQLException e1) {
                                     e1.printStackTrace();
                                 } finally {
                                     getPhotoIdFromSQL.disconnect();
                                 }
-
-                                analysisWindow = new AnalysisWindow(getBi().get(currentScreenCount), photo_id);
-                                analysisWindow.window();
+                                if (photo_id != 0) {
+                                    Colors colors = new Colors(getBi().get(currentScreenCount), photo_id);
+                                    colors.getCountColors2();
+                                } else System.out.println("Изображение " + (currentScreenCount+1) + " | " + title + " уже проанализировано");
                             }
                         }).start();
 
+                    } else {
+                        if (e.getKeyCode() == 27) {
+                            System.out.println("e.getKeyCode(): " + e.getKeyCode());
+                            isAnalysSeries = false;
+                        }
                     }
                 }
-
 
 
                 switch (e.getKeyCode()) {
@@ -418,7 +430,6 @@ public class ViewWindow extends JFrame {
             String sqlPhotoId = "select distinct Photo.photo_id from Photo\n" +
                     "    inner join Pixels on Photo.photo_id = Pixels.photo_id\n" +
                     "    where media_id = " + getMedia_id() + ";";
-            String sqlPixels = "delete from Pixels where photo_id in (?);";
 
 
             String sqlPhoto = "delete from Photo where media_id = " + getMedia_id();
@@ -435,7 +446,6 @@ public class ViewWindow extends JFrame {
                     try {
                         dropTable.connect();
                         System.out.println("Delete Table: " + title);
-//                        dropTable.setPstmt(dropTable.getConnection().prepareStatement(sqlPixels));
                         ResultSet rs = dropTable.getStmt().executeQuery(sqlPhotoId);
                         String sqlPhotoIdInPixels = "n";
                         while (rs.next()) {
@@ -443,11 +453,11 @@ public class ViewWindow extends JFrame {
                         }
                         if (sqlPhotoIdInPixels.length() != 1) {
                             sqlPhotoIdInPixels = sqlPhotoIdInPixels.substring(1, sqlPhotoIdInPixels.length() - 1);
-                            System.out.println("sqlPhotoIdInPixels: " + sqlPhotoIdInPixels);
+//                            System.out.println("sqlPhotoIdInPixels: " + sqlPhotoIdInPixels);
                             String sqlDeletePixels = "delete from Pixels where photo_id in(" + sqlPhotoIdInPixels + ");";
                             dropTable.getStmt().execute(sqlDeletePixels);
                         }
-                        System.out.println("sqlPhotoIdInPixels.length(): " + sqlPhotoIdInPixels.length());
+//                        System.out.println("sqlPhotoIdInPixels.length(): " + sqlPhotoIdInPixels.length());
 
                         dropTable.getStmt().execute(sqlPhoto);
                         dropTable.getStmt().execute(sqlMedia);
@@ -461,7 +471,6 @@ public class ViewWindow extends JFrame {
                         e.printStackTrace();
                     } finally {
                         dropTable.disconnect();
-                        System.out.println("Title from deleteAllFrames()" + title);
                         Controller.getTablesName().remove(title);
                     }
                     System.out.println("Время работы метода deleteAllFrames(): " + (System.currentTimeMillis() - time) );
