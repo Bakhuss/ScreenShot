@@ -161,22 +161,70 @@ public class Controller {
         }).start();
     }
 
-    public void getScreenKey(KeyEvent keyEvent) {
-        if (ScreenCapture.isScreening()) return;
+//    public void getScreenKey(KeyEvent keyEvent) {
+//        if (ScreenCapture.isScreening()) return;
+//
+//        System.out.println("\nScreen");
+//        System.out.println(keyEvent.getCode());
+//        if (keyEvent.getCode() == KeyCode.PRINTSCREEN) {
+//            getScreenController();
+//        }
+//
+//    }
 
-        System.out.println("\nScreen");
-        System.out.println(keyEvent.getCode());
+    public void getScreenKey(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.PRINTSCREEN) {
+            System.out.println("\nScreen");
+            System.out.println(keyEvent.getCode());
+            if (ScreenCapture.isScreening()) return;
             getScreenController();
         }
 
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.V) {
+            System.out.println("Ctrl + " + keyEvent.getCode());
+            System.out.println("Vacuum start");
+            SQLHandler sendVacuum = new SQLHandler();
+            long time = System.currentTimeMillis();
+            try {
+                sendVacuum.connect();
+                String sqlVac = "vacuum;";
+                sendVacuum.getStmt().execute(sqlVac);
+                System.out.println("Vacuum complete");
+
+            } catch (SQLException e) {
+                System.out.println("Vacuum abort");
+                e.printStackTrace();
+            }finally {
+                sendVacuum.disconnect();
+            }
+            System.out.println("Затраченное время: " + (System.currentTimeMillis() - time));
+        }
+
     }
+
+
 
 
     public void getView(ActionEvent actionEvent) {
         if (ScreenCapture.isScreening()) return;
         getMemoryInfo();
         System.out.println("Количество ядер: " + Runtime.getRuntime().availableProcessors());
+
+//                   //Vacuum
+//
+//        SQLHandler sendVacuum = new SQLHandler();
+//        try {
+//            sendVacuum.connect();
+//            String sqlVac = "vacuum;";
+//            sendVacuum.getStmt().execute(sqlVac);
+//            System.out.println("Vacuum complete");
+//
+//        } catch (SQLException e) {
+//            System.out.println("Vacuum abort");
+//            e.printStackTrace();
+//        }finally {
+//            sendVacuum.disconnect();
+//        }
 
         new Thread(new Runnable() {
             @Override
@@ -192,8 +240,6 @@ public class Controller {
                         tableViewFromDB.setItems(ScreenShots);
                     }
                 });
-
-
             }
         }).start();
 
