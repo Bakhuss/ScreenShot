@@ -485,8 +485,6 @@ public class ViewWindow extends JFrame {
                     "    inner join Pixels on Photo.photo_id = Pixels.photo_id\n" +
                     "    where media_id = " + getMedia_id() + ";";
 
-            String sql = "";
-
 
             String sqlPhoto = "delete from Photo where media_id = " + getMedia_id();
             String sqlMedia = "delete from Media where media_id = " + getMedia_id();
