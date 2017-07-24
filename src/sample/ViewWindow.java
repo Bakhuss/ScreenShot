@@ -481,18 +481,9 @@ public class ViewWindow extends JFrame {
             System.out.println("deleteAllFrames");
             System.out.println("Name: " + getName_id() + " Info: " + getInfo_id() + " Media: " + getMedia_id());
 
-            String sqlPhotoId = "select distinct Photo.photo_id from Photo\n" +
-                    "    inner join Pixels on Photo.photo_id = Pixels.photo_id\n" +
-                    "    where media_id = " + getMedia_id() + ";";
-
-
-            String sqlPhoto = "delete from Photo where media_id = " + getMedia_id();
-            String sqlMedia = "delete from Media where media_id = " + getMedia_id();
-            String sqlInfo = "delete from Info where info_id = " + getInfo_id();
             String sqlName = "delete from Name where name_id = " + getName_id();
 
             dropTable = new SQLHandler();
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -500,36 +491,6 @@ public class ViewWindow extends JFrame {
                     try {
                         dropTable.connect();
                         System.out.println("Delete Table: " + title);
-
-
-//                        ResultSet rs = dropTable.getStmt().executeQuery(sqlPhotoId);
-//                        String sqlPhotoIdInPixels = "n";
-//                        while (rs.next()) {
-//                            sqlPhotoIdInPixels = sqlPhotoIdInPixels + rs.getInt(1) + ",";
-//                        }
-//                        if (sqlPhotoIdInPixels.length() != 1) {
-//                            sqlPhotoIdInPixels = sqlPhotoIdInPixels.substring(1, sqlPhotoIdInPixels.length() - 1);
-////                            System.out.println("sqlPhotoIdInPixels: " + sqlPhotoIdInPixels);
-////                            String sqlDeletePixels = "delete from Pixels where photo_id in(" + sqlPhotoIdInPixels + ");";
-
-
-                            String sqlDeletePixels = "delete from Pixels where photo_id in (\n" +
-                                    "    select distinct Photo.photo_id from Photo\n" +
-                                    "    inner join Pixels on Photo.photo_id = Pixels.photo_id\n" +
-                                    "    where media_id = " + getMedia_id() + "\n" +
-                                    ");";
-
-
-                            dropTable.getStmt().execute(sqlDeletePixels);
-
-//                        }
-
-
-//                        System.out.println("sqlPhotoIdInPixels.length(): " + sqlPhotoIdInPixels.length());
-
-                        dropTable.getStmt().execute(sqlPhoto);
-                        dropTable.getStmt().execute(sqlMedia);
-                        dropTable.getStmt().execute(sqlInfo);
                         dropTable.getStmt().execute(sqlName);
                         System.out.println("Метод deleteAllFrames() выполнен успешно:\n" +
                                            "запись " + title + " удалена из БД.");
