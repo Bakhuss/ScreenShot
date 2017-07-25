@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="450.0" minWidth="370.0" onKeyReleased="#getScreenKey" prefHeight="450.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane minHeight="450.0" minWidth="370.0" onKeyReleased="#getScreenKey" prefHeight="450.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <BorderPane fx:id="mainFrame" minWidth="370.0" prefHeight="450.0" prefWidth="370.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -65,6 +65,11 @@
                           <menus>
                             <Menu mnemonicParsing="false" text="Меню">
                               <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <Button mnemonicParsing="false" text="Выбрать БД" textAlignment="CENTER" />
+                                       </graphic>
+                                    </MenuItem>
                                     <MenuItem mnemonicParsing="false">
                                        <graphic>
                                           <Button mnemonicParsing="false" onAction="#showPaneAboutProgram" text="О программе" textAlignment="CENTER" />

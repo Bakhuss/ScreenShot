@@ -40,6 +40,9 @@ public class SQLHandler {
 
         stmt = connection.createStatement();
         String sql;
+//        Statement stmtCreate = connection.createStatement();
+
+//        stmt.execute("PRAGMA journal_mode = 'WAL';");
 
         sql = "CREATE TABLE IF NOT EXISTS Name (\n" +
                 "    name_id       INTEGER PRIMARY KEY AUTOINCREMENT\n" +
@@ -60,8 +63,6 @@ public class SQLHandler {
                 "          WHERE Info.name_id = old.name_id;\n" +
                 "END;";
         stmt.execute(sql);
-
-
 
 
         sql = "CREATE TABLE IF NOT EXISTS First_Name (\n" +
@@ -218,6 +219,7 @@ public class SQLHandler {
 
 
         sql = "CREATE TABLE IF NOT EXISTS Pixels (\n" +
+                "    media_id     INTEGER REFERENCES Media (media_id),\n" +
                 "    photo_id     INTEGER REFERENCES Photo (photo_id) ON DELETE CASCADE\n" +
                 "                         NOT NULL,\n" +
                 "    pixel_number INTEGER NOT NULL,\n" +
@@ -229,6 +231,8 @@ public class SQLHandler {
                 "    photo_id ASC\n" +
                 ");";
         stmt.execute(sql);
+
+//        stmt.execute("PRAGMA journal_mode = 'DELETE';");
 
     }
 
@@ -243,9 +247,6 @@ public class SQLHandler {
 
     }
 
-    public void createMetaType() {
-
-    }
 
     public void createDB() throws IOException, SQLException {
         fileDB.createNewFile();

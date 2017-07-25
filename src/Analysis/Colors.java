@@ -33,13 +33,15 @@ public class Colors {
     private BufferedImage bi;
     private String title;
     private int photo_id = 0;
+    private int media_id = 0;
 
 
     public Colors() {
     }
 
-    public Colors(BufferedImage bi, int photo_id) {
+    public Colors(BufferedImage bi,int media_id, int photo_id) {
         this.bi = bi;
+        this.media_id = media_id;
         this.photo_id = photo_id;
     }
 
@@ -68,7 +70,7 @@ public class Colors {
                     if (w == trd.length - 1) iBefor = bi.getHeight();
 
                     try {
-                        String sqlStr = "insert into Pixels (photo_id, pixel_number, color) values (?, ?, ?);";
+                        String sqlStr = "insert into Pixels (media_id, photo_id, pixel_number, color) values (?, ?, ?, ?);";
                         sendColorsToSQL[w] = new SQLHandler();
                         sendColorsToSQL[w].connect();
                         sendColorsToSQL[w].setPstmt(sendColorsToSQL[w].getConnection().prepareStatement(sqlStr));
@@ -76,9 +78,10 @@ public class Colors {
                         for (int i = w * height; i < iBefor; i++) {
                             for (int j = 0; j < bi.getWidth(); j++) {
 
-                                sendColorsToSQL[w].getPstmt().setInt(1, getPhoto_id());
-                                sendColorsToSQL[w].getPstmt().setInt(2, pixelNumber);
-                                sendColorsToSQL[w].getPstmt().setInt(3, bi.getRGB(j, i));
+                                sendColorsToSQL[w].getPstmt().setInt(1, getMedia_id());
+                                sendColorsToSQL[w].getPstmt().setInt(2, getPhoto_id());
+                                sendColorsToSQL[w].getPstmt().setInt(3, pixelNumber);
+                                sendColorsToSQL[w].getPstmt().setInt(4, bi.getRGB(j, i));
                                 sendColorsToSQL[w].getPstmt().addBatch();
                                 pixelNumber++;
 //                                sendColorsToSQL[w].getPstmt().executeBatch();
@@ -347,5 +350,9 @@ public class Colors {
 
     public int getPhoto_id() {
         return photo_id;
+    }
+
+    public int getMedia_id() {
+        return media_id;
     }
 }
