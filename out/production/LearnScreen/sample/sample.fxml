@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -67,7 +68,12 @@
                               <items>
                                     <MenuItem mnemonicParsing="false">
                                        <graphic>
-                                          <Button mnemonicParsing="false" text="Выбрать БД" textAlignment="CENTER" />
+                                          <SplitMenuButton mnemonicParsing="false" text="Файл БД" textAlignment="CENTER">
+                                            <items>
+                                              <MenuItem mnemonicParsing="false" onAction="#getDBFile" text="Выбрать..." />
+                                              <MenuItem mnemonicParsing="false" onAction="#createDBFile" text="Создать..." />
+                                            </items>
+                                          </SplitMenuButton>
                                        </graphic>
                                     </MenuItem>
                                     <MenuItem mnemonicParsing="false">

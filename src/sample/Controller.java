@@ -17,9 +17,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
+import javax.swing.plaf.FileChooserUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -609,5 +615,35 @@ public class Controller {
     public void setInfo_id(int info_id) {
         this.info_id = info_id;
     }
+
+
+
+    public void getDBFile(ActionEvent actionEvent) {
+
+        FileChooser getDBFile = new FileChooser();
+        getDBFile.setTitle("Open DBFile");
+        getDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
+
+        File file = getDBFile.showOpenDialog(Main.primaryStage);
+        if (file != null) {
+            System.out.println(file.isDirectory());
+            System.out.println(file.isFile());
+        }
+
+    }
+
+    public void createDBFile(ActionEvent actionEvent) {
+
+        FileChooser createDBFile = new FileChooser();
+        createDBFile.setTitle("Create DB file");
+        createDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
+
+        File file = createDBFile.showSaveDialog(Main.primaryStage);
+
+        System.out.println(file.isDirectory());
+        System.out.println(file.isFile());
+
+    }
+
 
 }
