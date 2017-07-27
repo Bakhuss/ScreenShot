@@ -625,6 +625,7 @@ public class Controller {
         getDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
 
         File file = getDBFile.showOpenDialog(Main.primaryStage);
+        System.out.println( file.getName() );
         if (file != null) {
             System.out.println(file.isDirectory());
             System.out.println(file.isFile());
@@ -639,6 +640,12 @@ public class Controller {
         createDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
 
         File file = createDBFile.showSaveDialog(Main.primaryStage);
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(file.isDirectory());
         System.out.println(file.isFile());
