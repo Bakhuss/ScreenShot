@@ -5,11 +5,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -68,17 +68,17 @@
                               <items>
                                     <MenuItem mnemonicParsing="false">
                                        <graphic>
-                                          <SplitMenuButton mnemonicParsing="false" text="Файл БД" textAlignment="CENTER">
+                                          <MenuButton mnemonicParsing="false" text="Файл БД">
                                             <items>
                                               <MenuItem mnemonicParsing="false" onAction="#getDBFile" text="Выбрать..." />
                                               <MenuItem mnemonicParsing="false" onAction="#createDBFile" text="Создать..." />
                                             </items>
-                                          </SplitMenuButton>
+                                          </MenuButton>
                                        </graphic>
                                     </MenuItem>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem>
                                        <graphic>
-                                          <Button mnemonicParsing="false" onAction="#showPaneAboutProgram" text="О программе" textAlignment="CENTER" />
+                                          <Button mnemonicParsing="false" onAction="#showPaneAboutProgram" text="О программе" />
                                        </graphic>
                                     </MenuItem>
                                 <MenuItem mnemonicParsing="false">

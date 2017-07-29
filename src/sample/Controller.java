@@ -33,6 +33,7 @@ import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import SQLHandler.*;
 
 public class Controller {
 
@@ -254,9 +255,12 @@ public class Controller {
 
     public void getTables() {
         getAllTables = new SQLHandler();
+        System.out.println(5);
         try {
             getAllTables.connect();
+
             getAllTables.getAllTables();
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Не удалось запросить список таблиц из БД.");
@@ -625,11 +629,9 @@ public class Controller {
         getDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
 
         File file = getDBFile.showOpenDialog(Main.primaryStage);
-        System.out.println( file.getName() );
-        if (file != null) {
-            System.out.println(file.isDirectory());
-            System.out.println(file.isFile());
-        }
+        System.out.println( file.getAbsolutePath() );
+        DataBaseFile.setUrlDB(file);
+        System.out.println(DataBaseFile.getUrlDB());
 
     }
 
@@ -647,8 +649,19 @@ public class Controller {
             e.printStackTrace();
         }
 
-        System.out.println(file.isDirectory());
-        System.out.println(file.isFile());
+        DataBaseFile.setUrlDB(file);
+        System.out.println(DataBaseFile.getUrlDB());
+
+        Connect connect = new Connect();
+        try {
+            connect.connect();
+            DataBaseFile.createDBStructure(connect.getStmt());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connect.disconnect();
+        }
 
     }
 
