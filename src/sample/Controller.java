@@ -629,9 +629,7 @@ public class Controller {
         getDBFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite", "*.db"));
 
         File file = getDBFile.showOpenDialog(Main.primaryStage);
-        System.out.println( file.getAbsolutePath() );
         DataBaseFile.setUrlDB(file);
-        System.out.println(DataBaseFile.getUrlDB());
 
     }
 
@@ -650,13 +648,11 @@ public class Controller {
         }
 
         DataBaseFile.setUrlDB(file);
-        System.out.println(DataBaseFile.getUrlDB());
 
         Connect connect = new Connect();
         try {
             connect.connect();
             DataBaseFile.createDBStructure(connect.getStmt());
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

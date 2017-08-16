@@ -71,6 +71,7 @@ public class Colors {
 
                     try {
                         String sqlStr = "insert into Pixels (media_id, photo_id, pixel_number, color) values (?, ?, ?, ?);";
+
                         sendColorsToSQL[w] = new SQLHandler();
                         sendColorsToSQL[w].connect();
                         sendColorsToSQL[w].setPstmt(sendColorsToSQL[w].getConnection().prepareStatement(sqlStr));
@@ -112,17 +113,6 @@ public class Colors {
         System.out.println(System.currentTimeMillis()-time);
         System.out.println("After join in class Colors");
 
-//        for (int i = 0; i < sendColorsToSQL.length; i++) {
-//            try {
-//                sendColorsToSQL[i].getPstmt().executeBatch();
-//                sendColorsToSQL[i].getConnection().setAutoCommit(true);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } finally {
-//                sendColorsToSQL[i].disconnect();
-//                System.out.println("Disconnect");
-//            }
-//        }
 
         for ( SQLHandler o : sendColorsToSQL ) {
             try {

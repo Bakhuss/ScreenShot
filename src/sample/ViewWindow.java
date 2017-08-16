@@ -94,15 +94,15 @@ public class ViewWindow extends JFrame {
 
 
                             String sql = "select photo_id, image from Photo where photo_id in (\n" +
-                                    "    select photo_id from '" + getMedia_id() + "' limit ?,?\n" +
-                                    ");";
+                                    "    select photo_id from '" + getMedia_id() + "' order by photo_id limit ?,?\n" +
+                                    ") order by photo_id asc;";
 
 
 
                             String sqlCreateTemp = "CREATE TEMP TABLE IF NOT EXISTS '" + getMedia_id() + "' AS\n" +
                                     "select photo_id from Photo where media_id = " + getMedia_id() + "\n" +
                                     "except\n" +
-                                    "select Pixels.photo_id from Pixels order by Photo.photo_id;";
+                                    "select Pixels.photo_id from Pixels;";
 
                             String sqlDeleteTemp = "drop table if exists '" + getMedia_id() + "';";
 
@@ -158,7 +158,7 @@ public class ViewWindow extends JFrame {
                                     while (isAnalysSeries) {
 
 
-                                        System.out.println("from: " + from + "~ to: " + to);
+                                        System.out.println("from: " + from + " ~ to: " + to);
 
                                         if (rs.next()) {
                                             int photo_id = rs.getInt(1);
@@ -175,6 +175,7 @@ public class ViewWindow extends JFrame {
                                             a++;
 
                                         } else isAnalysSeries = false;
+
                                         if (a == 5) {
                                             System.out.println("a = " + a);
                                             from += limit;
@@ -527,6 +528,7 @@ public class ViewWindow extends JFrame {
                         String sqlQuery = "delete from Photo where photo_id = (\n" +
                                 "    select photo_id from Photo where media_id = " + getMedia_id() + " order by photo_id asc limit " + currentScreenCount + ",1\n" +
                                 ");";
+
                         dropFrame.getStmt().execute(sqlQuery);
 
                         getBi().remove(currentScreenCount);
@@ -563,8 +565,10 @@ public class ViewWindow extends JFrame {
                     long time = System.currentTimeMillis();
                     try {
                         dropTable.connect();
+                        dropTable.getStmt().execute("PRAGMA journal_mode = WAL;");
                         System.out.println("Delete Table: " + title);
                         dropTable.getStmt().execute(sqlName);
+                        dropTable.getStmt().execute("PRAGMA journal_mode = DELETE;");
                         System.out.println("Метод deleteAllFrames() выполнен успешно:\n" +
                                            "запись " + title + " удалена из БД.");
                     } catch (SQLException e) {

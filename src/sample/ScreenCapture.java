@@ -273,12 +273,8 @@ int blue = (argb ) & 0xff;
                 String tableName = "'" + date + "'";
 
 //                String sqlNameTable = "CREATE TABLE " + tableName + " (name TEXT REFERENCES MetaData (name), img  BLOB);";
-                String sqlStr = "insert into Photo (media_id, photo_id, image) values (?, ?, ?);";
+                String sqlStr = "insert into Photo (media_photo_id, image) values (?, ?);";
                 System.out.println(sqlStr);
-
-
-
-
 
                 try {
                     saveToBase.connect();
@@ -305,24 +301,15 @@ int blue = (argb ) & 0xff;
                     rs = saveToBase.getStmt().executeQuery(sql);
                     rs.next();
                     int name_id = rs.getInt(1);
-                    sql = "insert into Info (name_id) values (" + name_id + ")";
+                    sql = "insert into Media (name_id, media_type_id) values (" + name_id + ", " + media_type_id + ")";
                     saveToBase.getStmt().execute(sql);
                     System.out.println("name_id: " + name_id);
 
-                    sql = "select info_id from Info where name_id = " + name_id;
-                    rs = saveToBase.getStmt().executeQuery(sql);
-                    rs.next();
-                    int info_id = rs.getInt(1);
-                    sql = "insert into Media (info_id, media_type_id) values (" + info_id + ", " + media_type_id + ")";
-                    saveToBase.getStmt().execute(sql);
-                    System.out.println("info_id: " + info_id);
-
-                    sql = "select media_id from Media where info_id = " + info_id;
+                    sql = "select media_id from Media where name_id = " + name_id;
                     rs = saveToBase.getStmt().executeQuery(sql);
                     rs.next();
                     int media_id = rs.getInt(1);
                     System.out.println("media_id: " + media_id);
-
 
                     saveToBase.getConnection().setAutoCommit(false);
 
@@ -345,11 +332,14 @@ int blue = (argb ) & 0xff;
 
                                 String str = String.valueOf( o.getKey() );
                                 String substr = str.substring(str.length()-6);
+                                sql = "insert into Media_Photo (media_id, photo_id) values (" + media_id + ", " + Integer.valueOf(substr) + ")";
+                                saveToBase.getStmt().execute(sql);
+                                sql = "select id from Media_Photo where media_id = " + media_id + " and photo_id = " + Integer.valueOf(substr);
+                                rs = saveToBase.getStmt().executeQuery(sql);
 
-
-                                saveToBase.getPstmt().setInt(1, media_id);
-                                saveToBase.getPstmt().setInt(2, Integer.valueOf(substr));
-                                saveToBase.getPstmt().setBinaryStream(3, bais, baos.toByteArray().length);
+                                saveToBase.getPstmt().setInt(1, rs.getInt(1));
+//                                saveToBase.getPstmt().setInt(2, Integer.valueOf(substr));
+                                saveToBase.getPstmt().setBinaryStream(2, bais, baos.toByteArray().length);
                                 saveToBase.getPstmt().addBatch();
 
                             } catch (SQLException e) {
